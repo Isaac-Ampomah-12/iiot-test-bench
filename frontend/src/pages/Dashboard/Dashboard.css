@@ -5,3 +5,18 @@
   font-size: 3.4rem;
   text-align: center;
 }
+#Dashboard h2,
+#Dashboard h3 {
+  letter-spacing: 0.1rem;
+  font-weight: 600;
+}
+#Dashboard h2 {
+  font-size: 1.4rem;
+  background-color: lightblue;
+  padding: 0.6rem 1.6rem;
+  margin: 0;
+}
+#Dashboard h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
