@@ -20,3 +20,6 @@
   font-size: 1.2rem;
   margin-bottom: 1rem;
 }
+#Dashboard section {
+  outline: 0.1rem solid lightblue;
+}
