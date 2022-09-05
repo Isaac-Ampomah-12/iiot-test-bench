@@ -1,7 +1,7 @@
 import "./css/normalize.css";
 import "./css/skeleton.css";
 
-import Dashboard from "./Dashboard/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   return (
