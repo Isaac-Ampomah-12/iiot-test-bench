@@ -1,4 +1,4 @@
-function BrokerInfo() { 
+function BrokerMetrics() { 
     return (
       <div>
         <h2>Broker</h2>
@@ -6,4 +6,4 @@ function BrokerInfo() {
     );
 }
 
-export default BrokerInfo;
+export default BrokerMetrics;
