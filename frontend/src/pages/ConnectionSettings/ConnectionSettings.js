@@ -1,4 +1,4 @@
-function ConnectionSettions() {
+function ConnectionSettings() {
   return (
     <div>
       <h2>Connection settings</h2>
@@ -6,4 +6,4 @@ function ConnectionSettions() {
   );
 }
 
-export default ConnectionSettions;
+export default ConnectionSettings;
