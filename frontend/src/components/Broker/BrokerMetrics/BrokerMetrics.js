@@ -1,8 +1,10 @@
+import "./BrokerMetrics.css";
+
 function BrokerMetrics() { 
     return (
-      <div>
+      <section id="Broker">
         <h2>Broker</h2>
-      </div>
+      </section>
     );
 }
 
