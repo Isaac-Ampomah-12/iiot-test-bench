@@ -2,6 +2,13 @@ const express = require('express');
 const app = express();
 const connectRouter = require('./routes/connect');
 
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "*"s
+
+  })
+)
 // parse the incoming requests with JSON payloads 
 app.use(express.json());
 
