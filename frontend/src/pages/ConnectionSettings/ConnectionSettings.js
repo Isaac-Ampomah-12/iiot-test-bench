@@ -8,7 +8,7 @@ function ConnectionSettings() {
         <form>
           <div className="row">
             <div className="five columns">
-              <label htmlFor="host">Host:</label>
+              <label htmlhtmlFor="host">Host:</label>
               <input
                 type="url"
                 id="host"
@@ -19,7 +19,7 @@ function ConnectionSettings() {
               />
             </div>
             <div className="two columns">
-              <label htmlFor="port">Port:</label>
+              <label htmlhtmlFor="port">Port:</label>
               <input
                 type="number"
                 id="port"
@@ -30,7 +30,7 @@ function ConnectionSettings() {
               />
             </div>
             <div className="five columns">
-              <label htmlFor="port">Client ID:</label>
+              <label htmlhtmlFor="port">Client ID:</label>
               <input
                 type="text"
                 id="client-id"
@@ -38,6 +38,16 @@ function ConnectionSettings() {
                 value="clientId-XXXXXXXXXX"
                 required
               />
+            </div>
+          </div>
+          <div className="row">
+            <div className="six columns">
+              <label htmlFor="username">Username:</label>
+              <input type="text" id="username" className="u-full-width" />
+            </div>
+            <div className="six columns">
+              <label htmlFor="password">Password:</label>
+              <input type="password" id="password" className="u-full-width" />
             </div>
           </div>
         </form>
