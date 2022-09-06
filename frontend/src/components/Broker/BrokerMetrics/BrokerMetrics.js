@@ -24,7 +24,7 @@ function BrokerMetrics() {
                 <span>
                   <strong>Status:</strong>
                 </span>
-                <span>Disconnected</span>
+                <span style={{ color: "red" }}>Disconnected</span>
               </div>
             </div>
           </div>
@@ -79,6 +79,14 @@ function BrokerMetrics() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="buttons">
+          <button type="button" className="button-primary">
+            Connect
+          </button>
+          <a href="/" className="button">
+            Settings
+          </a>
         </div>
       </section>
     );
