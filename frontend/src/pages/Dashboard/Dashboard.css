@@ -26,3 +26,6 @@
 #Dashboard section .row {
   padding: 1.8rem 1.6rem;
 }
+#Dashboard section .info {
+  line-height: 2;
+}
