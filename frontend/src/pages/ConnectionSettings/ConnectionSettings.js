@@ -50,6 +50,11 @@ function ConnectionSettings() {
               <input type="password" id="password" className="u-full-width" />
             </div>
           </div>
+          <div className="row">
+            <button type="submit" className="button-primary u-full-width">
+              Save
+            </button>
+          </div>
         </form>
       </section>
     </div>
