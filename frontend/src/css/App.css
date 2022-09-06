@@ -1,9 +1,10 @@
-html,
-body {
+html {
   min-height: 100vh;
+  font-size: 85%;
 }
 
 main {
   padding-bottom: 2.4rem;
+  margin-top: 5rem;
   transition: 0.5s;
 }
