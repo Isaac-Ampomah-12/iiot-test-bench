@@ -29,3 +29,6 @@
 #Dashboard section .info {
   line-height: 2;
 }
+#Dashboard section .info .info-item > span {
+  padding-right: 0.8rem;
+}
