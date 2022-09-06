@@ -1,7 +1,7 @@
 #Broker .buttons {
   padding: 0 1.6rem;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   -moz-column-gap: 1rem;
        column-gap: 1rem;
 }
