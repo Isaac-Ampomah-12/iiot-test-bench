@@ -1,4 +1,5 @@
 import "./BrokerMetrics.css";
+import { Link } from "react-router-dom";
 
 function BrokerMetrics() { 
     return (
@@ -84,9 +85,9 @@ function BrokerMetrics() {
           <button type="button" className="button-primary">
             Connect
           </button>
-          <a href="/" className="button">
+          <Link to="/settings" className="button">
             Settings
-          </a>
+          </Link>
         </div>
       </section>
     );
