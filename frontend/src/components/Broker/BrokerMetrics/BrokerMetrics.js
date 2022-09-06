@@ -8,21 +8,21 @@ function BrokerMetrics() {
           <div className="four columns">
             <h3>Connection</h3>
             <div className="info">
-              <div>
+              <div className="info-item">
                 <span>
-                  <strong>Host: </strong>
+                  <strong>Host:</strong>
                 </span>
                 <span>broker.hivemq.com</span>
               </div>
-              <div>
+              <div className="info-item">
                 <span>
-                  <strong>Port: </strong>
+                  <strong>Port:</strong>
                 </span>
                 <span>8080</span>
               </div>
-              <div>
+              <div className="info-item">
                 <span>
-                  <strong>Status: </strong>
+                  <strong>Status:</strong>
                 </span>
                 <span>Disconnected</span>
               </div>
@@ -30,16 +30,33 @@ function BrokerMetrics() {
           </div>
           <div className="three columns">
             <h3>Messages</h3>
-            <div class="info">
-              <div>
+            <div className="info">
+              <div className="info-item">
                 <span>
-                  <strong>Sent: </strong>
+                  <strong>Sent:</strong>
                 </span>
                 <span>0</span>
               </div>
-              <div>
+              <div className="info-item">
                 <span>
-                  <strong>Received: </strong>
+                  <strong>Received:</strong>
+                </span>
+                <span>0</span>
+              </div>
+            </div>
+          </div>
+          <div className="two columns">
+            <h3>Network</h3>
+            <div className="info">
+              <div className="info-item">
+                <span>
+                  <strong>Uplink:</strong>
+                </span>
+                <span>0</span>
+              </div>
+              <div className="info-item">
+                <span>
+                  <strong>Downlink:</strong>
                 </span>
                 <span>0</span>
               </div>
