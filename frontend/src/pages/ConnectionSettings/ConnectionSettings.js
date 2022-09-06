@@ -1,3 +1,5 @@
+import "./ConnectionSettings.css";
+
 function ConnectionSettings() {
   return (
     <div className="container">
