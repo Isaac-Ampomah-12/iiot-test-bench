@@ -1,7 +1,9 @@
 function ConnectionSettings() {
   return (
-    <div>
-      <h2>Connection settings</h2>
+    <div className="container">
+      <section id="Connect-settings">
+        <h2>Connection settings</h2>
+      </section>
     </div>
   );
 }
