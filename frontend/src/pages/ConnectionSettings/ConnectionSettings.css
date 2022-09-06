@@ -4,3 +4,9 @@
   margin-top: 10rem;
   outline: 0.1rem solid lightblue;
 }
+#Connect-settings h2 {
+  font-size: 1.4rem;
+  text-align: center;
+  background-color: lightblue;
+  padding: 1rem;
+}
