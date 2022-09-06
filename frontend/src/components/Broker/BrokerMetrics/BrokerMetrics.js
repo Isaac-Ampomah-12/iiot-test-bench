@@ -62,6 +62,23 @@ function BrokerMetrics() {
               </div>
             </div>
           </div>
+          <div className="two columns">
+            <h3>Performance</h3>
+            <div className="info">
+              <div className="info-item">
+                <span>
+                  <strong>CPU:</strong>
+                </span>
+                <span>0</span>
+              </div>
+              <div className="info-item">
+                <span>
+                  <strong>Memory:</strong>
+                </span>
+                <span>0</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     );
