@@ -14,7 +14,7 @@ function ConnectionSettings() {
                 id="client-name"
                 className="u-full-width"
                 name="clientName"
-                placeholder="Enter name for test client"
+                placeholder="Enter name for client"
                 required
               />
             </div>
@@ -57,11 +57,21 @@ function ConnectionSettings() {
           <div className="row">
             <div className="six columns">
               <label htmlFor="username">Username:</label>
-              <input type="text" id="username" className="u-full-width" />
+              <input
+                type="text"
+                id="username"
+                className="u-full-width"
+                placeholder="Enter connection username"
+              />
             </div>
             <div className="six columns">
               <label htmlFor="password">Password:</label>
-              <input type="password" id="password" className="u-full-width" />
+              <input
+                type="password"
+                id="password"
+                className="u-full-width"
+                placeholder="Enter connection password"
+              />
             </div>
           </div>
           <div className="row">
