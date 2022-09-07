@@ -1,5 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
+import { connectionSlice } from "./connectionSlice";
 
 export const store = configureStore({
-    reducer: {}
+  reducer: {
+    connection: connectionSlice,
+  },
 });
