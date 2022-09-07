@@ -8,7 +8,7 @@ function ConnectionSettings() {
         <form>
           <div className="row">
             <div className="six columns">
-              <label htmlhtmlFor="name">Client Name:</label>
+              <label htmlhtmlhtmlFor="name">Client Name:</label>
               <input
                 type="text"
                 id="client-name"
@@ -19,7 +19,7 @@ function ConnectionSettings() {
               />
             </div>
             <div className="six columns">
-              <label htmlhtmlFor="client-id">Client ID:</label>
+              <label htmlhtmlhtmlFor="client-id">Client ID:</label>
               <input
                 type="text"
                 id="client-id"
@@ -32,7 +32,7 @@ function ConnectionSettings() {
           </div>
           <div className="row">
             <div className="ten columns">
-              <label htmlhtmlFor="host">Host Address:</label>
+              <label htmlhtmlhtmlFor="host">Host Address:</label>
               <input
                 type="text"
                 id="host"
@@ -43,7 +43,7 @@ function ConnectionSettings() {
               />
             </div>
             <div className="two columns">
-              <label htmlhtmlFor="port">Port:</label>
+              <label htmlhtmlhtmlFor="port">Port:</label>
               <input
                 type="number"
                 id="port"
@@ -56,7 +56,7 @@ function ConnectionSettings() {
           </div>
           <div className="row">
             <div className="six columns">
-              <label htmlFor="username">Username:</label>
+              <label htmlhtmlFor="username">Username:</label>
               <input
                 type="text"
                 id="username"
@@ -65,13 +65,41 @@ function ConnectionSettings() {
               />
             </div>
             <div className="six columns">
-              <label htmlFor="password">Password:</label>
+              <label htmlhtmlFor="password">Password:</label>
               <input
                 type="password"
                 id="password"
                 className="u-full-width"
                 placeholder="Enter connection password"
               />
+            </div>
+          </div>
+          <div className="row">
+            <div className="three columns">
+              <label htmlFor="keep-alive">Keep Alive &#40;s&#41;:</label>
+              <input
+                type="number"
+                id="keep-alive"
+                className="u-full-width"
+                name="keepalive"
+                value="10"
+                min="0"
+              />
+            </div>
+            <div className="three columns">
+              <label htmlFor="connect-timeout">Connect Timeout &#40;s&#41;:</label>
+              <input
+                type="number"
+                id="connect-timeout"
+                className="u-full-width"
+                name="connectTimeout"
+                value="60"
+                min="0"
+              />
+            </div>
+            <div className="three columns">
+              <label htmlFor="clean-session">Clean Session:</label>
+              <input type="checkbox" id="clean-session" name="clean" />
             </div>
           </div>
           <div className="row">
