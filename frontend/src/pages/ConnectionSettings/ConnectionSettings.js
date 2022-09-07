@@ -7,15 +7,39 @@ function ConnectionSettings() {
         <h2>Connection settings</h2>
         <form>
           <div className="row">
-            <div className="five columns">
-              <label htmlhtmlFor="host">Host:</label>
+            <div className="six columns">
+              <label htmlhtmlFor="name">Client Name:</label>
               <input
-                type="url"
+                type="text"
+                id="client-name"
+                className="u-full-width"
+                name="clientName"
+                placeholder="Enter name for test client"
+                required
+              />
+            </div>
+            <div className="six columns">
+              <label htmlhtmlFor="client-id">Client ID:</label>
+              <input
+                type="text"
+                id="client-id"
+                className="u-full-width"
+                name="clientId"
+                value="testId-XXXXXXXXXXXXXXXXXXXX"
+                required
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="ten columns">
+              <label htmlhtmlFor="host">Host Address:</label>
+              <input
+                type="text"
                 id="host"
                 className="u-full-width"
-                placeholder="E.g. mqtt://broker.hostname.com"
+                name="host"
+                placeholder="E.g. mqtt://broker.hivemq.com"
                 required
-                autofocus
               />
             </div>
             <div className="two columns">
@@ -26,16 +50,6 @@ function ConnectionSettings() {
                 className="u-full-width"
                 min="0"
                 value="1883"
-                required
-              />
-            </div>
-            <div className="five columns">
-              <label htmlhtmlFor="port">Client ID:</label>
-              <input
-                type="text"
-                id="client-id"
-                className="u-full-width"
-                value="clientId-XXXXXXXXXX"
                 required
               />
             </div>
