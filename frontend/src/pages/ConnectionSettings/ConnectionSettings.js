@@ -8,7 +8,7 @@ function ConnectionSettings() {
         <form>
           <div className="row">
             <div className="six columns">
-              <label htmlhtmlhtmlFor="name">Client Name:</label>
+              <label htmlFor="name">Client Name:</label>
               <input
                 type="text"
                 id="client-name"
@@ -19,7 +19,7 @@ function ConnectionSettings() {
               />
             </div>
             <div className="six columns">
-              <label htmlhtmlhtmlFor="client-id">Client ID:</label>
+              <label htmlFor="client-id">Client ID:</label>
               <input
                 type="text"
                 id="client-id"
@@ -32,73 +32,53 @@ function ConnectionSettings() {
           </div>
           <div className="row">
             <div className="ten columns">
-              <label htmlhtmlhtmlFor="host">Host Address:</label>
+              <label htmlFor="host">Host Address:</label>
               <input
-                type="text"
-                id="host"
+                type="url"
+                id="host-address"
                 className="u-full-width"
-                name="host"
+                name="host-address"
                 placeholder="E.g. mqtt://broker.hivemq.com"
                 required
               />
             </div>
             <div className="two columns">
-              <label htmlhtmlhtmlFor="port">Port:</label>
+              <label htmlFor="port">Port:</label>
               <input
                 type="number"
                 id="port"
                 className="u-full-width"
                 min="0"
-                value="1883"
+                defaultValue="1883"
                 required
               />
             </div>
           </div>
           <div className="row">
             <div className="six columns">
-              <label htmlhtmlFor="username">Username:</label>
+              <label htmlFor="username">Username:</label>
               <input
                 type="text"
                 id="username"
                 className="u-full-width"
+                name="username"
                 placeholder="Enter connection username"
               />
             </div>
             <div className="six columns">
-              <label htmlhtmlFor="password">Password:</label>
+              <label htmlFor="password">Password:</label>
               <input
                 type="password"
                 id="password"
                 className="u-full-width"
+                name="password"
                 placeholder="Enter connection password"
               />
             </div>
           </div>
           <div className="row">
             <div className="three columns">
-              <label htmlFor="keep-alive">Keep Alive &#40;s&#41;:</label>
-              <input
-                type="number"
-                id="keep-alive"
-                className="u-full-width"
-                name="keepalive"
-                value="10"
-                min="0"
-              />
-            </div>
-            <div className="three columns">
-              <label htmlFor="connect-timeout">Connect Timeout &#40;s&#41;:</label>
-              <input
-                type="number"
-                id="connect-timeout"
-                className="u-full-width"
-                name="connectTimeout"
-                value="60"
-                min="0"
-              />
-            </div>
-            <div className="three columns">
-              <label htmlFor="clean-session">Clean Session:</label>
+              <label htmlFor="clean-session">Clean Session: </label>
               <input type="checkbox" id="clean-session" name="clean" />
             </div>
           </div>
