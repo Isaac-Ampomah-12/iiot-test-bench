@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function Publisher() {
   const [pubNumber, setPubNumber] = useState(0);
+  const [pubInterval, setPubInterval] = useState(0);
 
   return (
     <section id="publisher">
@@ -27,12 +28,13 @@ function Publisher() {
                 type="range"
                 id="interval"
                 className="u-full-width"
-                defaultValue="10"
-                min="10"
+                min="0"
                 max="10000"
-                step="50"
+                step="100"
+                value={pubInterval}
+                onChange={({target}) => setPubInterval(target.value)}
               />
-              <output htmlFor="interval"></output>
+              <output htmlFor="interval">{pubInterval}</output>
             </div>
           </div>
         </div>
