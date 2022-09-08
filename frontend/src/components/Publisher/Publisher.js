@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 function Publisher() {
+  const [pubNumber, setPubNumber] = useState(0);
+  
   return (
     <section id="publisher">
       <h2>Publisher</h2>
@@ -10,9 +14,11 @@ function Publisher() {
               <input
                 type="number"
                 id="no-of-pub"
+                className="u-full-width"
                 name="publisherNumber"
-                defaultValue="0"
                 min="0"
+                value={pubNumber}
+                onChange={({target}) => setPubNumber(target.value)}
               />
             </div>
           </div>
