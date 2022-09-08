@@ -18,7 +18,13 @@ connectRouter.post('/connect',(req, res) => {
         // this variable will hold true 
         let connectionStatus = brokerClient.connected
 
-
+        // store broker connection credentials into process environment
+        process.env.host = options.host;
+        process.env.port = options.port;
+        process.env.protocol = options.protocol;
+        process.env.username = options.username;
+        process.env.password = options.password;
+        
         // a true value will be sent to the front end
         res.send({connectionStatus});
     });
