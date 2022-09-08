@@ -31,7 +31,7 @@ function Publisher() {
                 className="u-full-width"
                 min="0"
                 value={pubTopicLevel}
-                onChange={({target}) => setPubTopicLevel(target.value)}
+                onChange={({ target }) => setPubTopicLevel(target.value)}
               />
             </div>
           </div>
@@ -64,6 +64,21 @@ function Publisher() {
                 onChange={({ target }) => setPubInterval(target.value)}
                 style={{ marginBottom: "0" }}
               />
+            </div>
+          </div>
+          <div className="three columns">
+            <h3>Performance</h3>
+            <div>
+              <span>
+                <strong>CPU: </strong>
+              </span>
+              <span>0</span>
+            </div>
+            <div>
+              <span>
+                <strong>Memory: </strong>
+              </span>
+              <span>0</span>
             </div>
           </div>
         </div>
