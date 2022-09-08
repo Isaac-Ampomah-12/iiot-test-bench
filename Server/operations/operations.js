@@ -25,6 +25,18 @@ const operations = {
         return str;
     },
 
+    // this method will check the size of a message in kilobytes
+    getMessageSize (str) {
+        // get the string size in bytes
+        let byteSize = Buffer.byteLength(str, "utf-8");
+
+        // convert bytes value to kilobytes
+        let kiloByteSize = Math.floor(byteSize * 0.001);
+
+        // return kilobytes value
+        return kiloByteSize;
+    }
+
 }
 
 // export operations
