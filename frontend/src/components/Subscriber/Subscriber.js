@@ -2,7 +2,8 @@ import { useState } from "react";
 
 function Subscriber() {
   const [subNumber, setSubNumber] = useState(0);
-  
+  const [subTopicLevel, setTopicLevel] = useState(0);
+
   return (
     <section>
       <h2>Subscriber</h2>
@@ -21,7 +22,12 @@ function Subscriber() {
         <div className="four columns">
           <div>
             <label htmlFor="topic-levels">Topic Levels:</label>
-            <input type="number" id="topic-levels" defaultValue="0" />
+            <input
+              type="number"
+              id="topic-levels"
+              value={subTopicLevel}
+              onChange={({target}) => setTopicLevel(target.value)}
+            />
           </div>
         </div>
       </div>
