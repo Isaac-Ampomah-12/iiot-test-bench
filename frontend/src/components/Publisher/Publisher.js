@@ -9,21 +9,35 @@ function Publisher() {
       <h2>Publisher</h2>
       <form id="publisher-settings">
         <div className="row">
-          <div className="four columns">
-            <div>
-              <label htmlFor="no-of-pub">No. of publishers:</label>
-              <input
-                type="number"
-                id="no-of-pub"
-                className="u-full-width"
-                name="publisherNumber"
-                min="0"
-                value={pubNumber}
-                onChange={({ target }) => setPubNumber(target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="interval">Interval &#40;ms&#41;:</label>
+          <div className="three columns">
+            <label htmlFor="no-of-pub">No. of publishers:</label>
+            <input
+              type="number"
+              id="no-of-pub"
+              className="u-full-width"
+              name="publisherNumber"
+              min="0"
+              value={pubNumber}
+              onChange={({ target }) => setPubNumber(target.value)}
+            />
+          </div>
+          <div className="three columns">
+            <label htmlFor="interval" style={{ display: "inline" }}>
+              Interval &#40;ms&#41;:
+            </label>
+            <output
+              htmlFor="interval"
+              style={{ display: "inline", paddingLeft: "1rem" }}
+            >
+              {pubInterval}
+            </output>
+            <div
+              style={{
+                marginTop: "1rem",
+                display: "flex",
+                justityContent: "center",
+              }}
+            >
               <input
                 type="range"
                 id="interval"
@@ -31,10 +45,11 @@ function Publisher() {
                 min="0"
                 max="10000"
                 step="100"
+                title={pubInterval}
                 value={pubInterval}
-                onChange={({target}) => setPubInterval(target.value)}
+                onChange={({ target }) => setPubInterval(target.value)}
+                style={{ marginBottom: "0" }}
               />
-              <output htmlFor="interval">{pubInterval}</output>
             </div>
           </div>
         </div>
