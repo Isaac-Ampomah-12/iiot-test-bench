@@ -1,8 +1,12 @@
 function Publisher() {
   return (
-    <div>
+    <section id="publisher">
       <h2>Publisher</h2>
-    </div>
+      <form id="publisher-settings">
+        <div class="row">
+        </div>
+      </form>
+    </section>
   );
 }
 
