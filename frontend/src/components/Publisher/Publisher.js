@@ -68,17 +68,19 @@ function Publisher() {
           </div>
           <div className="three columns">
             <h3>Performance</h3>
-            <div>
-              <span>
-                <strong>CPU: </strong>
-              </span>
-              <span>0</span>
-            </div>
-            <div>
-              <span>
-                <strong>Memory: </strong>
-              </span>
-              <span>0</span>
+            <div className="info">
+              <div className="info-item">
+                <span>
+                  <strong>CPU:</strong>
+                </span>
+                <span>0</span>
+              </div>
+              <div className="info-item">
+                <span>
+                  <strong>Memory:</strong>
+                </span>
+                <span>0</span>
+              </div>
             </div>
           </div>
         </div>
