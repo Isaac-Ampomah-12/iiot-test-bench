@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const mqtt = require('mqtt');
+var randomWords = require('random-words');
+
 const connectRouter = require('./routes/connect');
 
 const cors = require("cors");
@@ -23,7 +25,9 @@ app.post("/pubsub", (req, res) => {
     let {options, publishValues} = req.body;
     var client = mqtt.connect(options);
     
-    
+    let words = randomWords(publishValues.publishTopicLevel);
+    let topic = words.join('/');
+
     console.log(client.connected);
     // setup the callbacks
     client.on('connect', function () {
@@ -41,10 +45,10 @@ app.post("/pubsub", (req, res) => {
     });
 
     // subscribe to topic 'my/test/topic'
-    client.subscribe(publishValues.publishTopic);
+    client.subscribe(topic);
 
     // publish message 'Hello' to topic 'my/test/topic'
-    client.publish(publishValues.publishTopic, publishValues.publishMessage);
+    client.publish(topic, "hi");
 });
 
 
