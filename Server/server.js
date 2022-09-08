@@ -22,12 +22,15 @@ const port = process.env.PORT || 8080;
 app.use('/broker', connectRouter);
 
 
+// initialize publish and subscription counts
 let publishCount = 1;
 let subscriptionCount = 1;
 
+// initialize lastNumberOfPublishers and lastNumberOfSubscribers
 let lastNumberOfPublishers = 0;
 let lastNumberOfSubscribers = 0;
 
+// initialize result object
 result = {};
 
 let subscriptionInformation = {};
@@ -35,12 +38,16 @@ let publishInformation = {}
 
 app.post("/pubsub", (req, res) => {
     let {options, userValues} = req.body;
-    var pubSubClient = mqtt.connect(options);
+
+    // attempt connecting to broker
+    let pubSubClient = mqtt.connect(options);
     
+    // reset subscriptionCount if user changes numberOfSubscribers
     if (lastNumberOfSubscribers !== userValues.numberOfSubscribers){
         subscriptionCount = 1;
     }
     
+    // reset publishCount if user changes numberOfPublishers
     if (lastNumberOfPublishers !== userValues.numberOfPublishers){
         publishCount = 1;
     }
@@ -49,21 +56,31 @@ app.post("/pubsub", (req, res) => {
     let words = randomWords(userValues.publishTopicLevel);
     let topic = words.join('/');
 
-    // setup the callbacks
+    // generate random message
+    let randomNumber = Math.random()*1000;
+    let message = randomNumber.toString();
+
     pubSubClient.on('connect', function () {
+        // this block will be called if connection to broker is successfull
         console.log('Connected');
     });
 
     pubSubClient.on('error', function (error) {
+        // this block will be called if connection to broker is unsuccessfull
         console.log(error);
     });
 
     pubSubClient.on('message', function (topic, message) {
         // called each time a message is received
 
-        userValues.publishCount;
-        userValues.subscriptionCount
+        // userValues.publishCount;
+        // userValues.subscriptionCount
 
+        // keep received subscribed topic's message 
+        subscriptionInformation.topic = topic;
+        subscriptionInformation.message = message.toString();
+
+        // append publishInformation and subscriptionInformation arrays to result array
         result.publishInformation = publishInformation;
         result.subscriptionInformation = subscriptionInformation;
         console.log('Received message:', topic, message.toString());
@@ -72,16 +89,19 @@ app.post("/pubsub", (req, res) => {
         lastNumberOfPublishers = userValues.numberOfPublishers;
         lastNumberOfSubscribers = userValues.numberOfSubscribers;
 
+        // send result object to client
         res.send(result);
     });
 
-    // both 
+    
     if(subscriptionCount <= userValues.numberOfSubscribers && publishCount <= userValues.numberOfPublishers){
+        // this block will be run if both number of publisher and number of subscribers have not been exceeded
+
         // subscribe to topic
         pubSubClient.subscribe(topic);
 
         // publish to topic
-        pubSubClient.publish(topic, "hi");
+        pubSubClient.publish(topic, message);
 
         // subscription information ection
         subscriptionInformation.numberOfSubscriptionsExceeded = false;
@@ -91,60 +111,82 @@ app.post("/pubsub", (req, res) => {
         // publish information section
         publishInformation.numberOfPublishesExceeded = false;
         publishInformation.publishCount = publishCount;
+        publishInformation.topic = topic;
+        publishInformation.message = message;
         publishCount++;
-    }
-    else if(subscriptionCount <= userValues.numberOfSubscribers && publishCount >= userValues.numberOfPublishers){
+    }else if(subscriptionCount <= userValues.numberOfSubscribers && publishCount >= userValues.numberOfPublishers){
+        // this block will be run if number of publisher have been exceeded but number of subscribers have not been exceeded
+
         pubSubClient.subscribe(topic);
 
         // subscription information ection
         subscriptionInformation.numberOfSubscriptionsExceeded = false;
         subscriptionInformation.subscriptionCount = subscriptionCount;
+        subscriptionInformation.topic = topic;
         subscriptionCount ++;
 
         // publish information section
-        publishInformation.numberOfPublishesExceeded = true;
-        publishInformation.publishCount = publishCount;
+        // publishInformation.numberOfPublishesExceeded = true;
+        // publishInformation.publishCount = publishCount;
+        // publishInformation.topic = topic;
+        // publishInformation.message = message;
 
         // keep record of the last number of publishers and subscribers
         lastNumberOfPublishers = userValues.numberOfPublishers;
         lastNumberOfSubscribers = userValues.numberOfSubscribers;
 
+        // send result object to the front end
         res.send(result);
 
-    }
-    else if(subscriptionCount >= userValues.numberOfSubscribers && publishCount <= userValues.numberOfPublishers){
-        pubSubClient.publish(topic, "hi");
+    }else if(subscriptionCount >= userValues.numberOfSubscribers && publishCount <= userValues.numberOfPublishers){
+        // this block will be run if number of publisher not been exceeded but number of subscribers have been exceeded
+        
+        pubSubClient.publish(topic, message);
 
-        // subscription information ection
-        subscriptionInformation.numberOfSubscriptionsExceeded = true;
-        subscriptionInformation.subscriptionCount = subscriptionCount;
+        // add subscription data into subscriptionInformation object
+        // subscriptionInformation.numberOfSubscriptionsExceeded = true;
+        // subscriptionInformation.subscriptionCount = subscriptionCount;
 
-        // publish information section
+        // add publish data into publishInformation object
         publishInformation.numberOfPublishesExceeded = false;
         publishInformation.publishCount = publishCount;
+        publishInformation.topic = topic;
+        publishInformation.message = message;
+
         publishCount++;
 
         // keep record of the last number of publishers and subscribers
         lastNumberOfPublishers = userValues.numberOfPublishers;
         lastNumberOfSubscribers = userValues.numberOfSubscribers;
 
+        // send result object to the front end
         res.send(result);
 
-    }
-    else{
+    }else{
+        // this block will be run if both number of publisher and number of subscribers have been exceeded
         
-        publishInformation.numberOfPublishesExceeded = true;
-        result.publishInformation = publishInformation;
-
+        // subscription information ection
         subscriptionInformation.numberOfSubscriptionsExceeded = true;
         result.subscriptionInformation = subscriptionInformation;
 
+        // publish information section
+        publishInformation.numberOfPublishesExceeded = true;
+        publishInformation.topic = topic;
+        publishInformation.message = message;
+        result.publishInformation = publishInformation;
+        
         // keep record of the last number of publishers and subscribers
         lastNumberOfPublishers = userValues.numberOfPublishers;
         lastNumberOfSubscribers = userValues.numberOfSubscribers;
 
+        // send result object to the front end
         res.send(result);
     }
+    
+
+    // res.send(result);
+
+    // publish message 'Hello' to topic 'my/test/topic'
     
 });
 
