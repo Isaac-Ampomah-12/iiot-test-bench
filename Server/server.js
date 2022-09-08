@@ -35,7 +35,6 @@ app.post("/pubsub", (req, res) => {
     let words = randomWords(userValues.publishTopicLevel);
     let topic = words.join('/');
 
-    console.log(pubSubClient.connected);
     // setup the callbacks
     pubSubClient.on('connect', function () {
         console.log('Connected');
@@ -53,7 +52,7 @@ app.post("/pubsub", (req, res) => {
         res.send(result);
     });
 
-    // subscribe to topic 'my/test/topic'
+    // both 
     if(subscriptionCount <= userValues.numberOfSubscribers && publishCount <= userValues.numberOfPublishers){
         // subscribe to topic
         pubSubClient.subscribe(topic);
@@ -70,14 +69,49 @@ app.post("/pubsub", (req, res) => {
         publishInformation.numberOfPublishesExceeded = false;
         publishInformation.publishCount = publishCount;
         publishCount++;
-    }else{
-        subscriptionInformation.numberOfSubcriptionsExceeded = true;
-        result.subscriptionInformation = subscriptionInformation;
+    }
+    else if(subscriptionCount <= userValues.numberOfSubscribers && publishCount >= userValues.numberOfPublishers){
+        pubSubClient.subscribe(topic);
 
+        // subscription information ection
+        subscriptionInformation.numberOfSubscriptionsExceeded = false;
+        subscriptionInformation.subscriptionCount = subscriptionCount;
+        subscriptionCount ++;
+
+        // publish information section
+        publishInformation.numberOfPublishesExceeded = true;
+        publishInformation.publishCount = publishCount;
+
+        res.send(result);
+
+    }
+    else if(subscriptionCount >= userValues.numberOfSubscribers && publishCount <= userValues.numberOfPublishers){
+        pubSubClient.publish(topic, "hi");
+
+        // subscription information ection
+        subscriptionInformation.numberOfSubscriptionsExceeded = true;
+        subscriptionInformation.subscriptionCount = subscriptionCount;
+
+        // publish information section
+        publishInformation.numberOfPublishesExceeded = false;
+        publishInformation.publishCount = publishCount;
+        publishCount++;
+
+        res.send(result);
+
+    }
+    else{
+        
         publishInformation.numberOfPublishesExceeded = true;
         result.publishInformation = publishInformation;
-        // res.send(result);
+
+        subscriptionInformation.numberOfSubscriptionsExceeded = true;
+        result.subscriptionInformation = subscriptionInformation;
+
+        
+        res.send(result);
     }
+    
 });
 
 
