@@ -22,6 +22,12 @@ function Publisher() {
             />
           </div>
           <div className="three columns">
+            <div>
+              <label htmlFor="topic-levels">Topic Levels:</label>
+              <input type="number" id="topic-levels" className="u-full-width" value="0" min="0" />
+            </div>
+          </div>
+          <div className="three columns">
             <label htmlFor="interval" style={{ display: "inline" }}>
               Interval &#40;ms&#41;:
             </label>
