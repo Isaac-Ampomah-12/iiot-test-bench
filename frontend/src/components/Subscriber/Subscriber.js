@@ -14,8 +14,14 @@ function Subscriber() {
               type="number"
               id="no-of-sub"
               value={subNumber}
-              onChange={({target}) => setSubNumber(target.value)}
+              onChange={({ target }) => setSubNumber(target.value)}
             />
+          </div>
+        </div>
+        <div className="four columns">
+          <div>
+            <label htmlFor="topic-levels">Topic Levels:</label>
+            <input type="number" id="topic-levels" defaultValue="0" />
           </div>
         </div>
       </div>
