@@ -3,6 +3,7 @@ import { useState } from "react";
 function Publisher() {
   const [pubNumber, setPubNumber] = useState(0);
   const [pubInterval, setPubInterval] = useState(0);
+  const [pubTopicLevel, setPubTopicLevel] = useState(0);
 
   return (
     <section id="publisher">
@@ -24,7 +25,14 @@ function Publisher() {
           <div className="three columns">
             <div>
               <label htmlFor="topic-levels">Topic Levels:</label>
-              <input type="number" id="topic-levels" className="u-full-width" value="0" min="0" />
+              <input
+                type="number"
+                id="topic-levels"
+                className="u-full-width"
+                min="0"
+                value={pubTopicLevel}
+                onChange={({target}) => setPubTopicLevel(target.value)}
+              />
             </div>
           </div>
           <div className="three columns">
