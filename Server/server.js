@@ -21,34 +21,63 @@ const port = process.env.PORT || 8080;
 // routers
 app.use('/broker', connectRouter);
 
+
+let publishCount = 1;
+let subscriptionCount = 1;
+result = {};
+let subscriptionInformation = {};
+let publishInformation = {}
+
 app.post("/pubsub", (req, res) => {
-    let {options, publishValues} = req.body;
-    var client = mqtt.connect(options);
+    let {options, userValues} = req.body;
+    var pubSubClient = mqtt.connect(options);
     
-    let words = randomWords(publishValues.publishTopicLevel);
+    let words = randomWords(userValues.publishTopicLevel);
     let topic = words.join('/');
 
-    console.log(client.connected);
+    console.log(pubSubClient.connected);
     // setup the callbacks
-    client.on('connect', function () {
+    pubSubClient.on('connect', function () {
         console.log('Connected');
     });
 
-    client.on('error', function (error) {
+    pubSubClient.on('error', function (error) {
         console.log(error);
     });
 
-    client.on('message', function (topic, message) {
+    pubSubClient.on('message', function (topic, message) {
         // called each time a message is received
+        result.publishInformation = publishInformation;
+        result.subscriptionInformation = subscriptionInformation;
         console.log('Received message:', topic, message.toString());
-        res.send("passed");
+        res.send(result);
     });
 
     // subscribe to topic 'my/test/topic'
-    client.subscribe(topic);
+    if(subscriptionCount <= userValues.numberOfSubscribers && publishCount <= userValues.numberOfPublishers){
+        // subscribe to topic
+        pubSubClient.subscribe(topic);
 
-    // publish message 'Hello' to topic 'my/test/topic'
-    client.publish(topic, "hi");
+        // publish to topic
+        pubSubClient.publish(topic, "hi");
+
+        // subscription information ection
+        subscriptionInformation.numberOfSubscriptionsExceeded = false;
+        subscriptionInformation.subscriptionCount = subscriptionCount;
+        subscriptionCount ++;
+
+        // publish information section
+        publishInformation.numberOfPublishesExceeded = false;
+        publishInformation.publishCount = publishCount;
+        publishCount++;
+    }else{
+        subscriptionInformation.numberOfSubcriptionsExceeded = true;
+        result.subscriptionInformation = subscriptionInformation;
+
+        publishInformation.numberOfPublishesExceeded = true;
+        result.publishInformation = publishInformation;
+        // res.send(result);
+    }
 });
 
 
