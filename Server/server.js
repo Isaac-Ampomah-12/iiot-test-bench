@@ -20,9 +20,11 @@ const port = process.env.PORT || 8080;
 app.use('/broker', connectRouter);
 
 app.post("/pubsub", (req, res) => {
-
+    let {options, publishValues} = req.body;
     var client = mqtt.connect(options);
     
+    
+    console.log(client.connected);
     // setup the callbacks
     client.on('connect', function () {
         console.log('Connected');
@@ -39,10 +41,10 @@ app.post("/pubsub", (req, res) => {
     });
 
     // subscribe to topic 'my/test/topic'
-    client.subscribe('my/test/topic');
+    client.subscribe(publishValues.publishTopic);
 
     // publish message 'Hello' to topic 'my/test/topic'
-    client.publish('my/test/topic', 'Hello');
+    client.publish(publishValues.publishTopic, publishValues.publishMessage);
 });
 
 
