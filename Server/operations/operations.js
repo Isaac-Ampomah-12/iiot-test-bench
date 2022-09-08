@@ -35,6 +35,15 @@ const operations = {
 
         // return kilobytes value
         return kiloByteSize;
+    },
+    
+    // this method will convert kilobyte value to bytes
+    convertKbToByte(kbValue){
+        // multiply kilobyte value byte 1000 to get the byte value
+        let byteValue = kbValue * 1000;
+
+        // return the byte value
+        return byteValue;
     }
 
 }
