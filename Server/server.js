@@ -98,69 +98,134 @@ app.post("/pubsub", (req, res) => {
         // this block will be run if both number of publisher and number of subscribers have not been exceeded
 
         // subscribe to topic
-        pubSubClient.subscribe(topic);
+        if(userValues.publishTopicLevel === userValues.subscriptionTopicLevel){
+            pubSubClient.subscribe(topic);
+            
+            // publish to topic
+            pubSubClient.publish(topic, message);
+    
+            // subscription information ection
+            subscriptionInformation.numberOfSubscriptionsExceeded = false;
+            subscriptionInformation.subscriptionCount = subscriptionCount;
+            subscriptionCount ++;
+    
+            // publish information section
+            publishInformation.numberOfPublishesExceeded = false;
+            publishInformation.publishCount = publishCount;
+            publishInformation.topic = topic;
+            publishInformation.message = message;
+            publishCount++;
 
-        // publish to topic
-        pubSubClient.publish(topic, message);
+            lastNumberOfPublishers = userValues.numberOfPublishers;
+            lastNumberOfSubscribers = userValues.numberOfSubscribers;
+        }else {
+            pubSubClient.publish(topic, message);
+            
+            subscriptionInformation.numberOfSubscriptionsExceeded = false;
+            subscriptionInformation.subscriptionCount = subscriptionCount;
+            subscriptionInformation.topic = "";
+            subscriptionInformation.message = "";
 
-        // subscription information ection
-        subscriptionInformation.numberOfSubscriptionsExceeded = false;
-        subscriptionInformation.subscriptionCount = subscriptionCount;
-        subscriptionCount ++;
+            // publish information section
+            publishInformation.numberOfPublishesExceeded = false;
+            publishInformation.publishCount = publishCount;
+            publishInformation.topic = topic;
+            publishInformation.message = message;
 
-        // publish information section
-        publishInformation.numberOfPublishesExceeded = false;
-        publishInformation.publishCount = publishCount;
-        publishInformation.topic = topic;
-        publishInformation.message = message;
-        publishCount++;
+            result.publishInformation = publishInformation;
+            result.subscriptionInformation = subscriptionInformation;
+
+            
+            publishCount++;
+
+            lastNumberOfPublishers = userValues.numberOfPublishers;
+            lastNumberOfSubscribers = userValues.numberOfSubscribers;
+
+            res.send(result);
+        }
+
+
     }else if(subscriptionCount <= userValues.numberOfSubscribers && publishCount >= userValues.numberOfPublishers){
         // this block will be run if number of publisher have been exceeded but number of subscribers have not been exceeded
+        if(userValues.publishTopicLevel === userValues.subscriptionTopicLevel){
+            pubSubClient.subscribe(topic);
+            subscriptionInformation.numberOfSubscriptionsExceeded = false;
+            subscriptionInformation.subscriptionCount = subscriptionCount;
+            subscriptionInformation.topic = topic;
+            subscriptionInformation.message = "";
 
-        pubSubClient.subscribe(topic);
+    
+            result.subscriptionInformation = subscriptionInformation;
+    
+            subscriptionCount ++;
 
-        // subscription information ection
-        subscriptionInformation.numberOfSubscriptionsExceeded = false;
-        subscriptionInformation.subscriptionCount = subscriptionCount;
-        subscriptionInformation.topic = topic;
-        subscriptionCount ++;
+            lastNumberOfPublishers = userValues.numberOfPublishers;
+            lastNumberOfSubscribers = userValues.numberOfSubscribers;
 
-        // publish information section
-        // publishInformation.numberOfPublishesExceeded = true;
-        // publishInformation.publishCount = publishCount;
-        // publishInformation.topic = topic;
-        // publishInformation.message = message;
+            res.send(result);
 
-        // keep record of the last number of publishers and subscribers
-        lastNumberOfPublishers = userValues.numberOfPublishers;
-        lastNumberOfSubscribers = userValues.numberOfSubscribers;
 
-        // send result object to the front end
-        res.send(result);
+        }else{
+            subscriptionInformation.numberOfSubscriptionsExceeded = false;
+            subscriptionInformation.subscriptionCount = subscriptionCount;
+            subscriptionInformation.topic = "";
+            subscriptionInformation.message = "";
+
+            result.subscriptionInformation = subscriptionInformation;
+
+            lastNumberOfPublishers = userValues.numberOfPublishers;
+            lastNumberOfSubscribers = userValues.numberOfSubscribers;
+
+            res.send(result);
+        }
 
     }else if(subscriptionCount >= userValues.numberOfSubscribers && publishCount <= userValues.numberOfPublishers){
         // this block will be run if number of publisher not been exceeded but number of subscribers have been exceeded
-        
-        pubSubClient.publish(topic, message);
+        if(userValues.publishTopicLevel === userValues.subscriptionTopicLevel){
+            pubSubClient.publish(topic, message);
+            publishInformation.numberOfPublishesExceeded = false;
+            publishInformation.publishCount = publishCount;
+            publishInformation.topic = topic;
+            publishInformation.message = message;
+
+            result.publishInformation = publishInformation;
+
+            publishCount++;
+
+            res.send(result);
+
+        }else{
+            pubSubClient.publish(topic, message);
+            publishInformation.numberOfPublishesExceeded = false;
+            publishInformation.publishCount = publishCount;
+            publishInformation.topic = topic;
+            publishInformation.message = message;
+
+            result.publishInformation = publishInformation;
+
+            publishCount++;
+
+            res.send(result);
+        }
 
         // add subscription data into subscriptionInformation object
         // subscriptionInformation.numberOfSubscriptionsExceeded = true;
         // subscriptionInformation.subscriptionCount = subscriptionCount;
 
         // add publish data into publishInformation object
-        publishInformation.numberOfPublishesExceeded = false;
-        publishInformation.publishCount = publishCount;
-        publishInformation.topic = topic;
-        publishInformation.message = message;
+        // publishInformation.numberOfPublishesExceeded = false;
+        // publishInformation.publishCount = publishCount;
+        // publishInformation.topic = topic;
+        // publishInformation.message = message;
 
-        publishCount++;
+        // publishCount++;
 
-        // keep record of the last number of publishers and subscribers
-        lastNumberOfPublishers = userValues.numberOfPublishers;
-        lastNumberOfSubscribers = userValues.numberOfSubscribers;
+        // // keep record of the last number of publishers and subscribers
+        // lastNumberOfPublishers = userValues.numberOfPublishers;
+        // lastNumberOfSubscribers = userValues.numberOfSubscribers;
 
-        // send result object to the front end
-        res.send(result);
+        // // send result object to the front end
+        // res.send(result);
 
     }else{
         // this block will be run if both number of publisher and number of subscribers have been exceeded
@@ -175,6 +240,7 @@ app.post("/pubsub", (req, res) => {
         publishInformation.message = message;
         result.publishInformation = publishInformation;
         
+
         // keep record of the last number of publishers and subscribers
         lastNumberOfPublishers = userValues.numberOfPublishers;
         lastNumberOfSubscribers = userValues.numberOfSubscribers;
