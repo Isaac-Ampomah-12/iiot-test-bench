@@ -15,7 +15,12 @@ const brokerSlice = createSlice({
       color: ''
     }
   },
-  reducers: {}
+  reducers: {
+    saveSettings(state, action) {
+      state.settings = action.payload;
+    }
+  }
 });
 
+export const { saveConfig } = brokerSlice.actions;
 export default brokerSlice.reducer;
