@@ -4,6 +4,25 @@ import { genClientId } from "../../util";
 function ConnectionSettings() {
   function handleSubmit(e) {
     e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const settings = {};
+    for (const entry of formData.entries()) {
+      const [name, value] = entry;
+      if (name === "host-address") {
+        const hostAddress = value.split("://");
+        settings.protocol = hostAddress[0];
+        settings.host = hostAddress[1];
+        continue;
+      }
+      if (name === "clean") {
+        value === "on" && (settings[name] = true);
+        continue;
+      }
+      settings[name] = value;
+    }
+    if (!settings.clean) settings.clean = false;
+    console.log(settings);
   }
   return (
     <div className="container">
