@@ -22,6 +22,7 @@ const port = process.env.PORT || 8080;
 app.use('/broker', connectRouter);
 
 
+
 // initialize publish and subscription counts
 let publishCount = 1;
 let subscriptionCount = 1;
@@ -112,11 +113,15 @@ app.post("/pubsub", (req, res) => {
             // check CPU usage after publishing to broker 
             const subscribeCurrentCpuUsage = process.cpuUsage(subscribePreviousCpuUsage);
 
-            // check memory usage for subscribing to topic
+            // check memory usage before publishing to broker
             let subscribeMemoryUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024).toString() +"MB";
 
             // calculate the actual cpu percentage used by the subscription operation
             const subscribeActualCpuUsagePercentage = Math.floor(100 * (subscribeCurrentCpuUsage.user + subscribeCurrentCpuUsage.system) / ((Date.now() - subStartDate) * 1000)).toString() +"%";
+
+
+            // check memory usage before publishing to broker
+            // let publishPreviousMemoryUsage = process.memoryUsage().heapUsed / 1024 / 1024;
 
             // check CPU usage before publishing to broker
             let publishPreviousCpuUsage = process.cpuUsage();
@@ -130,6 +135,9 @@ app.post("/pubsub", (req, res) => {
 
             // check CPU usage after publishing to broker 
             const publishCurrentCpuUsage = process.cpuUsage(publishPreviousCpuUsage);
+
+            // check memory usage before publishing to broker
+            let pubishMemoryUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024).toString() +"MB";
 
             // calculate the actual cpu percentage used by the publish operation
             const publishActualCpuUsagePercentage = Math.floor(100 * (publishCurrentCpuUsage.user + publishCurrentCpuUsage.system) / ((Date.now() - pubStartDate) * 1000)).toString() +"%";
@@ -174,6 +182,8 @@ app.post("/pubsub", (req, res) => {
             // check CPU usage after publishing to broker 
             const publishCurrentCpuUsage = process.cpuUsage(publishPreviousCpuUsage);
 
+            // check memory usage before publishing to broker
+            let pubishMemoryUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024).toString() +"MB";
 
             // calculate the actual cpu percentage used by the publish operation
             const publishActualCpuUsagePercentage = Math.floor(100 * (publishCurrentCpuUsage.user + publishCurrentCpuUsage.system) / ((Date.now() - pubStartDate) * 1000)).toString() +"%";
@@ -224,7 +234,7 @@ app.post("/pubsub", (req, res) => {
              // check CPU usage after publishing to broker 
              const subscribeCurrentCpuUsage = process.cpuUsage(subscribePreviousCpuUsage);
  
-             // check memory usage for subscribing to topic
+             // check memory usage before publishing to broker
              let subscribeMemoryUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024).toString() +"MB";
  
              // calculate the actual cpu percentage used by the subscription operation
@@ -283,6 +293,9 @@ app.post("/pubsub", (req, res) => {
             // check CPU usage after publishing to broker 
             const publishCurrentCpuUsage = process.cpuUsage(publishPreviousCpuUsage);
 
+            // check memory usage before publishing to broker
+            let pubishMemoryUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024).toString() +"MB";
+
             // calculate the actual cpu percentage used by the publish operation
             const publishActualCpuUsagePercentage = Math.floor(100 * (publishCurrentCpuUsage.user + publishCurrentCpuUsage.system) / ((Date.now() - pubStartDate) * 1000)).toString() +"%";
 
@@ -313,6 +326,9 @@ app.post("/pubsub", (req, res) => {
 
             // check CPU usage after publishing to broker 
             const publishCurrentCpuUsage = process.cpuUsage(publishPreviousCpuUsage);
+
+            // check memory usage before publishing to broker
+            let pubishMemoryUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024).toString() +"MB";
 
             // calculate the actual cpu percentage used by the publish operation
             const publishActualCpuUsagePercentage = Math.floor(100 * (publishCurrentCpuUsage.user + publishCurrentCpuUsage.system) / ((Date.now() - pubStartDate) * 1000)).toString() +"%";
