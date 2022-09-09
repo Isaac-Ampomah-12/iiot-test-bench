@@ -23,6 +23,7 @@ app.use('/broker', connectRouter);
 
 
 
+
 // initialize publish and subscription counts
 let publishCount = 1;
 let subscriptionCount = 1;
@@ -38,10 +39,18 @@ let subscriptionInformation = {};
 let publishInformation = {}
 
 app.post("/pubsub", (req, res) => {
-    let {options, userValues} = req.body;
+    let userValues = req.body;
+
+    let pubSubOptions = {};
+    pubSubOptions.host = process.env.host;
+    pubSubOptions.port = process.env.port;
+    pubSubOptions.protocol = process.env.protocol;
+    pubSubOptions.username = process.env.username;
+    pubSubOptions.password = process.env.password;
+    console.log(pubSubOptions);
 
     // attempt connecting to broker
-    let pubSubClient = mqtt.connect(options);
+    let pubSubClient = mqtt.connect(pubSubOptions);
     
     // reset subscriptionCount if user changes numberOfSubscribers
     if (lastNumberOfSubscribers !== userValues.numberOfSubscribers){
