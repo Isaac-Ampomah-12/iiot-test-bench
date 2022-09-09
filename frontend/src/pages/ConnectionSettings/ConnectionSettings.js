@@ -1,4 +1,5 @@
 import "./ConnectionSettings.css";
+import { genClientId } from "../../util";
 
 function ConnectionSettings() {
   return (
@@ -25,7 +26,7 @@ function ConnectionSettings() {
                 id="client-id"
                 className="u-full-width"
                 name="clientId"
-                value="testId-XXXXXXXXXXXXXXXXXXXX"
+                value={genClientId(16)}
                 required
               />
             </div>
