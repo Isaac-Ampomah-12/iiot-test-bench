@@ -1,8 +1,8 @@
-import "./BrokerMetrics.css";
+import "./Broker.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function BrokerMetrics() { 
+function Broker() { 
   const connection = useSelector(state => state.broker.connection);
   const messages = useSelector(state => state.broker.stats.messages);
   const network = useSelector(state => state.broker.stats.network);
@@ -110,4 +110,4 @@ function BrokerMetrics() {
     );
 }
 
-export default BrokerMetrics;
+export default Broker;
