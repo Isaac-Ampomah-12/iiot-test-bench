@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Publisher() {
   const [pubNumber, setPubNumber] = useState(0);
   const [pubInterval, setPubInterval] = useState(0);
   const [pubTopicLevel, setPubTopicLevel] = useState(0);
 
+  const stats = useSelector(state => state.publish.stats);
   return (
     <section id="publisher">
       <h2>Publisher</h2>
@@ -72,13 +74,13 @@ function Publisher() {
               <span>
                 <strong>CPU:</strong>
               </span>
-              <span>0</span>
+              <span>{stats.performance.cpu}</span>
             </div>
             <div className="info-item">
               <span>
                 <strong>Memory:</strong>
               </span>
-              <span>0</span>
+              <span>{stats.performance.memory}</span>
             </div>
           </div>
         </div>

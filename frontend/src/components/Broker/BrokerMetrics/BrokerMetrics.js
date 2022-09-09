@@ -1,7 +1,13 @@
 import "./BrokerMetrics.css";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function BrokerMetrics() { 
+  const connection = useSelector(state => state.broker.connection);
+  const messages = useSelector(state => state.broker.stats.messages);
+  const network = useSelector(state => state.broker.stats.network);
+  const performance = useSelector(state => state.broker.stats.performance);
+
     return (
       <section id="Broker">
         <h2>Broker</h2>
@@ -25,7 +31,9 @@ function BrokerMetrics() {
                 <span>
                   <strong>Status:</strong>
                 </span>
-                <span style={{ color: "red" }}>Disconnected</span>
+                <span style={{ color: connection.color }}>
+                  {connection.msg}
+                </span>
               </div>
             </div>
           </div>
@@ -36,13 +44,13 @@ function BrokerMetrics() {
                 <span>
                   <strong>Sent:</strong>
                 </span>
-                <span>0</span>
+                <span>{messages.sent}</span>
               </div>
               <div className="info-item">
                 <span>
                   <strong>Received:</strong>
                 </span>
-                <span>0</span>
+                <span>{messages.received}</span>
               </div>
             </div>
           </div>
@@ -53,13 +61,13 @@ function BrokerMetrics() {
                 <span>
                   <strong>Uplink:</strong>
                 </span>
-                <span>0</span>
+                <span>{network.uplink}</span>
               </div>
               <div className="info-item">
                 <span>
                   <strong>Downlink:</strong>
                 </span>
-                <span>0</span>
+                <span>{network.downlink}</span>
               </div>
             </div>
           </div>
@@ -70,21 +78,30 @@ function BrokerMetrics() {
                 <span>
                   <strong>CPU:</strong>
                 </span>
-                <span>0</span>
+                <span>{performance.cpu}</span>
               </div>
               <div className="info-item">
                 <span>
                   <strong>Memory:</strong>
                 </span>
-                <span>0</span>
+                <span>{performance.memory}</span>
               </div>
             </div>
           </div>
         </div>
         <div className="buttons">
-          <button type="button" className="button-primary">
-            Connect
-          </button>
+          {connection.status ? (
+            <button
+              type="button"
+              style={{ backgroundColor: "#F70D1A", color: "white" }}
+            >
+              Disconnect
+            </button>
+          ) : (
+            <button type="button" className="button-primary">
+              Connect
+            </button>
+          )}
           <Link to="/settings" className="button">
             Settings
           </Link>
