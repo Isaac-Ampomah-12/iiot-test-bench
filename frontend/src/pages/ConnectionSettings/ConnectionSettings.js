@@ -2,11 +2,14 @@ import "./ConnectionSettings.css";
 import { genClientId } from "../../util";
 
 function ConnectionSettings() {
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
   return (
     <div className="container">
       <section id="Connect-settings">
         <h2>Connection settings</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="six columns">
               <label htmlFor="name">Client Name:</label>
