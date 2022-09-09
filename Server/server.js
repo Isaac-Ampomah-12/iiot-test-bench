@@ -99,14 +99,36 @@ app.post("/pubsub", (req, res) => {
 
         // subscribe to topic
         if(userValues.publishTopicLevel === userValues.subscriptionTopicLevel){
+            // check CPU usage before publishing to broker
+            let subscribePreviousCpuUsage = process.cpuUsage();
+
+            // spin the CPU for 500 milliseconds
+            const subStartDate = Date.now();
+            while (Date.now() - subStartDate < 500);
+
+            // subscribe to topic
             pubSubClient.subscribe(topic);
-            
+
+            // check CPU usage after publishing to broker 
+            const subscribeCurrentCpuUsage = process.cpuUsage(subscribePreviousCpuUsage);
+
+
+            // calculate the actual cpu percentage used by the subscription operation
+            const subscribeActualCpuUsagePercentage = Math.floor(100 * (subscribeCurrentCpuUsage.user + subscribeCurrentCpuUsage.system) / ((Date.now() - subStartDate) * 1000)).toString() +"%";
+
+
             // publish to topic
             pubSubClient.publish(topic, message);
+
+
+
     
-            // subscription information ection
+            // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
+            subscriptionInformation.subscribeActualCpuUsagePercentage = subscribeActualCpuUsagePercentage;
+
+
             subscriptionCount ++;
     
             // publish information section
@@ -114,17 +136,25 @@ app.post("/pubsub", (req, res) => {
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
+
+
             publishCount++;
 
             lastNumberOfPublishers = userValues.numberOfPublishers;
             lastNumberOfSubscribers = userValues.numberOfSubscribers;
         }else {
+
+
+
+            // publish to topic
             pubSubClient.publish(topic, message);
-            
+
+            // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
             subscriptionInformation.topic = "";
             subscriptionInformation.message = "";
+            subscriptionInformation.subscribeActualCpuUsagePercentage = "";
 
             // publish information section
             publishInformation.numberOfPublishesExceeded = false;
@@ -148,11 +178,30 @@ app.post("/pubsub", (req, res) => {
     }else if(subscriptionCount <= userValues.numberOfSubscribers && publishCount >= userValues.numberOfPublishers){
         // this block will be run if number of publisher have been exceeded but number of subscribers have not been exceeded
         if(userValues.publishTopicLevel === userValues.subscriptionTopicLevel){
-            pubSubClient.subscribe(topic);
+
+             // check CPU usage before publishing to broker
+             let subscribePreviousCpuUsage = process.cpuUsage();
+
+             // spin the CPU for 500 milliseconds
+             const subStartDate = Date.now();
+             while (Date.now() - subStartDate < 500);
+ 
+             // subscribe to topic
+             pubSubClient.subscribe(topic);
+ 
+             // check CPU usage after publishing to broker 
+             const subscribeCurrentCpuUsage = process.cpuUsage(subscribePreviousCpuUsage);
+ 
+ 
+             // calculate the actual cpu percentage used by the subscription operation
+             const subscribeActualCpuUsagePercentage = Math.floor(100 * (subscribeCurrentCpuUsage.user + subscribeCurrentCpuUsage.system) / ((Date.now() - subStartDate) * 1000)).toString() +"%";
+
+            // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
             subscriptionInformation.topic = topic;
             subscriptionInformation.message = "";
+            subscriptionInformation.subscribeActualCpuUsagePercentage = subscribeActualCpuUsagePercentage;
 
     
             result.subscriptionInformation = subscriptionInformation;
@@ -166,10 +215,12 @@ app.post("/pubsub", (req, res) => {
 
 
         }else{
+            // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
             subscriptionInformation.topic = "";
             subscriptionInformation.message = "";
+            subscriptionInformation.subscribeActualCpuUsagePercentage = "";
 
             result.subscriptionInformation = subscriptionInformation;
 
@@ -182,11 +233,16 @@ app.post("/pubsub", (req, res) => {
     }else if(subscriptionCount >= userValues.numberOfSubscribers && publishCount <= userValues.numberOfPublishers){
         // this block will be run if number of publisher not been exceeded but number of subscribers have been exceeded
         if(userValues.publishTopicLevel === userValues.subscriptionTopicLevel){
+
+
+            // publish to topic
             pubSubClient.publish(topic, message);
+
             publishInformation.numberOfPublishesExceeded = false;
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
+
 
             result.publishInformation = publishInformation;
 
@@ -195,11 +251,15 @@ app.post("/pubsub", (req, res) => {
             res.send(result);
 
         }else{
+
+            // publish to topic
             pubSubClient.publish(topic, message);
+
             publishInformation.numberOfPublishesExceeded = false;
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
+
 
             result.publishInformation = publishInformation;
 
@@ -208,36 +268,24 @@ app.post("/pubsub", (req, res) => {
             res.send(result);
         }
 
-        // add subscription data into subscriptionInformation object
-        // subscriptionInformation.numberOfSubscriptionsExceeded = true;
-        // subscriptionInformation.subscriptionCount = subscriptionCount;
-
-        // add publish data into publishInformation object
-        // publishInformation.numberOfPublishesExceeded = false;
-        // publishInformation.publishCount = publishCount;
-        // publishInformation.topic = topic;
-        // publishInformation.message = message;
-
-        // publishCount++;
-
-        // // keep record of the last number of publishers and subscribers
-        // lastNumberOfPublishers = userValues.numberOfPublishers;
-        // lastNumberOfSubscribers = userValues.numberOfSubscribers;
-
-        // // send result object to the front end
-        // res.send(result);
-
     }else{
         // this block will be run if both number of publisher and number of subscribers have been exceeded
         
-        // subscription information ection
+        // store subscription information
         subscriptionInformation.numberOfSubscriptionsExceeded = true;
+        // subscriptionInformation.subscriptionCount = subscriptionCount;
+        subscriptionInformation.topic = "";
+        subscriptionInformation.message = "";
+        subscriptionInformation.subscribeActualCpuUsagePercentage = "";
+
         result.subscriptionInformation = subscriptionInformation;
 
         // publish information section
         publishInformation.numberOfPublishesExceeded = true;
-        publishInformation.topic = topic;
-        publishInformation.message = message;
+        publishInformation.topic = "";
+        publishInformation.message = "";
+
+
         result.publishInformation = publishInformation;
         
 
@@ -255,6 +303,7 @@ app.post("/pubsub", (req, res) => {
     // publish message 'Hello' to topic 'my/test/topic'
     
 });
+
 
 
 
