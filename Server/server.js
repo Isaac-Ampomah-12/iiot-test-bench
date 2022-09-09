@@ -57,8 +57,21 @@ app.post("/pubsub", (req, res) => {
     let topic = operations.generateTopic(userValues.publishTopicLevel);
 
     // generate random message
-    let randomNumber = Math.random()*1000;
-    let message = randomNumber.toString();
+
+    // let randomNumber = Math.random()*1000;
+    // let message = randomNumber.toString();
+
+    // generate a random message of size between 1kb and 1mb
+    let numMessageByte = operations.convertKbToByte(userValues.messageSize);
+    console.log("ByteValue: " + numMessageByte);
+    let message = operations.generateMessage(numMessageByte);
+    let messageSize = operations.getMessageSize(message);
+    // console.log(message);
+    console.log(messageSize);
+
+
+
+    
 
     pubSubClient.on('connect', function () {
         // this block will be called if connection to broker is successfull
@@ -83,7 +96,7 @@ app.post("/pubsub", (req, res) => {
         // append publishInformation and subscriptionInformation arrays to result array
         result.publishInformation = publishInformation;
         result.subscriptionInformation = subscriptionInformation;
-        console.log('Received message:', topic, message.toString());
+        // console.log('Received message:', topic, message.toString());
 
         // keep record of the last number of publishers and subscribers
         lastNumberOfPublishers = userValues.numberOfPublishers;
@@ -157,10 +170,10 @@ app.post("/pubsub", (req, res) => {
             // publish information section
             publishInformation.numberOfPublishesExceeded = false;
             publishInformation.publishCount = publishCount;
-            publishInformation.topic = topic;
-            publishInformation.message = message;
             publishInformation.publishMemoryUsage = pubishMemoryUsage;
             publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
+            publishInformation.topic = topic;
+            publishInformation.message = message;
 
             publishCount++;
 
@@ -190,18 +203,18 @@ app.post("/pubsub", (req, res) => {
             // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
-            subscriptionInformation.topic = "";
-            subscriptionInformation.message = "";
             subscriptionInformation.subscribeMemoryUsage = "";
             subscriptionInformation.subscribeActualCpuUsagePercentage = "";
+            subscriptionInformation.topic = "";
+            subscriptionInformation.message = "";
 
             // publish information section
             publishInformation.numberOfPublishesExceeded = false;
             publishInformation.publishCount = publishCount;
-            publishInformation.topic = topic;
-            publishInformation.message = message;
             publishInformation.publishMemoryUsage = pubishMemoryUsage;
             publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
+            publishInformation.topic = topic;
+            publishInformation.message = message;
 
             result.publishInformation = publishInformation;
             result.subscriptionInformation = subscriptionInformation;
@@ -242,10 +255,10 @@ app.post("/pubsub", (req, res) => {
             // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
-            subscriptionInformation.topic = topic;
-            subscriptionInformation.message = "";
             subscriptionInformation.subscribeMemoryUsage = subscribeMemoryUsage;
             subscriptionInformation.subscribeActualCpuUsagePercentage = subscribeActualCpuUsagePercentage;
+            subscriptionInformation.topic = topic;
+            subscriptionInformation.message = "";
 
     
             result.subscriptionInformation = subscriptionInformation;
@@ -262,10 +275,10 @@ app.post("/pubsub", (req, res) => {
             // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
-            subscriptionInformation.topic = "";
-            subscriptionInformation.message = "";
             subscriptionInformation.subscribeMemoryUsage = "";
             subscriptionInformation.subscribeActualCpuUsagePercentage = "";
+            subscriptionInformation.topic = "";
+            subscriptionInformation.message = "";
 
             result.subscriptionInformation = subscriptionInformation;
 
@@ -300,10 +313,10 @@ app.post("/pubsub", (req, res) => {
 
             publishInformation.numberOfPublishesExceeded = false;
             publishInformation.publishCount = publishCount;
-            publishInformation.topic = topic;
-            publishInformation.message = message;
             publishInformation.publishMemoryUsage = pubishMemoryUsage;
             publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
+            publishInformation.topic = topic;
+            publishInformation.message = message;
 
             result.publishInformation = publishInformation;
 
@@ -334,10 +347,10 @@ app.post("/pubsub", (req, res) => {
             
             publishInformation.numberOfPublishesExceeded = false;
             publishInformation.publishCount = publishCount;
-            publishInformation.topic = topic;
-            publishInformation.message = message;
             publishInformation.publishMemoryUsage = pubishMemoryUsage;
             publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
+            publishInformation.topic = topic;
+            publishInformation.message = message;
 
             result.publishInformation = publishInformation;
 
@@ -352,19 +365,19 @@ app.post("/pubsub", (req, res) => {
         // store subscription information
         subscriptionInformation.numberOfSubscriptionsExceeded = true;
         // subscriptionInformation.subscriptionCount = subscriptionCount;
-        subscriptionInformation.topic = "";
-        subscriptionInformation.message = "";
         subscriptionInformation.subscribeMemoryUsage = "";
         subscriptionInformation.subscribeActualCpuUsagePercentage = "";
+        subscriptionInformation.topic = "";
+        subscriptionInformation.message = "";
 
         result.subscriptionInformation = subscriptionInformation;
 
         // publish information section
         publishInformation.numberOfPublishesExceeded = true;
-        publishInformation.topic = "";
-        publishInformation.message = "";
         publishInformation.publishMemoryUsage = "";
         publishInformation.publishCpuUsage = "";
+        publishInformation.topic = "";
+        publishInformation.message = "";
 
         result.publishInformation = publishInformation;
         
