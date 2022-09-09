@@ -5,7 +5,7 @@ export const subscribeSlice = createSlice({
   initialState: {
     settings: {},
     stats: { 
-      performance: { cpu: 0, memomry: 0 }
+      performance: { cpu: 0, memory: 0 }
     }
   },
   reducers: {}
