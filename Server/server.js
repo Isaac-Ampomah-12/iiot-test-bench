@@ -53,9 +53,8 @@ app.post("/pubsub", (req, res) => {
         publishCount = 1;
     }
 
-    // Generate Random topic
-    let words = randomWords(userValues.publishTopicLevel);
-    let topic = words.join('/');
+    // Generate Random topic based on the topic level
+    let topic = operations.generateTopic(userValues.publishTopicLevel);
 
     // generate random message
     let randomNumber = Math.random()*1000;
@@ -384,15 +383,6 @@ app.post("/pubsub", (req, res) => {
     // publish message 'Hello' to topic 'my/test/topic'
     
 });
-
-
-
-
-// the server will be listening on port
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`)
- });
-
 
  module.exports = app;
  
