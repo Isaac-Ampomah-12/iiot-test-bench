@@ -76,11 +76,14 @@ app.post("/pubsub", (req, res) => {
     pubSubClient.on('connect', function () {
         // this block will be called if connection to broker is successfull
         console.log('Connected');
+        result.connected = pubSubClient.connected;
     });
 
     pubSubClient.on('error', function (error) {
         // this block will be called if connection to broker is unsuccessfull
         console.log(error);
+        result.connected = pubSubClient.connected;
+        res.send(result);
     });
 
     pubSubClient.on('message', function (topic, message) {
