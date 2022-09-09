@@ -117,8 +117,22 @@ app.post("/pubsub", (req, res) => {
             const subscribeActualCpuUsagePercentage = Math.floor(100 * (subscribeCurrentCpuUsage.user + subscribeCurrentCpuUsage.system) / ((Date.now() - subStartDate) * 1000)).toString() +"%";
 
 
+            // check CPU usage before publishing to broker
+            let publishPreviousCpuUsage = process.cpuUsage();
+            
+            // spin the CPU for 500 milliseconds
+            const pubStartDate = Date.now();
+            while (Date.now() - pubStartDate < 500);
+
             // publish to topic
             pubSubClient.publish(topic, message);
+
+            // check CPU usage after publishing to broker 
+            const publishCurrentCpuUsage = process.cpuUsage(publishPreviousCpuUsage);
+
+            // calculate the actual cpu percentage used by the publish operation
+            const publishActualCpuUsagePercentage = Math.floor(100 * (publishCurrentCpuUsage.user + publishCurrentCpuUsage.system) / ((Date.now() - pubStartDate) * 1000)).toString() +"%";
+            
 
 
 
@@ -136,7 +150,7 @@ app.post("/pubsub", (req, res) => {
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
-
+            publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
 
             publishCount++;
 
@@ -144,11 +158,23 @@ app.post("/pubsub", (req, res) => {
             lastNumberOfSubscribers = userValues.numberOfSubscribers;
         }else {
 
+            // check CPU usage before publishing to broker
+            let publishPreviousCpuUsage = process.cpuUsage();
 
+            // spin the CPU for 500 milliseconds
+            const pubStartDate = Date.now();
+            while (Date.now() - pubStartDate < 500);
 
             // publish to topic
             pubSubClient.publish(topic, message);
 
+            // check CPU usage after publishing to broker 
+            const publishCurrentCpuUsage = process.cpuUsage(publishPreviousCpuUsage);
+
+
+            // calculate the actual cpu percentage used by the publish operation
+            const publishActualCpuUsagePercentage = Math.floor(100 * (publishCurrentCpuUsage.user + publishCurrentCpuUsage.system) / ((Date.now() - pubStartDate) * 1000)).toString() +"%";
+                        
             // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
@@ -161,6 +187,7 @@ app.post("/pubsub", (req, res) => {
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
+            publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
 
             result.publishInformation = publishInformation;
             result.subscriptionInformation = subscriptionInformation;
@@ -234,15 +261,27 @@ app.post("/pubsub", (req, res) => {
         // this block will be run if number of publisher not been exceeded but number of subscribers have been exceeded
         if(userValues.publishTopicLevel === userValues.subscriptionTopicLevel){
 
+            // check CPU usage before publishing to broker
+            let publishPreviousCpuUsage = process.cpuUsage();
+            
+            // spin the CPU for 500 milliseconds
+            const pubStartDate = Date.now();
+            while (Date.now() - pubStartDate < 500);
 
             // publish to topic
             pubSubClient.publish(topic, message);
+
+            // check CPU usage after publishing to broker 
+            const publishCurrentCpuUsage = process.cpuUsage(publishPreviousCpuUsage);
+
+            // calculate the actual cpu percentage used by the publish operation
+            const publishActualCpuUsagePercentage = Math.floor(100 * (publishCurrentCpuUsage.user + publishCurrentCpuUsage.system) / ((Date.now() - pubStartDate) * 1000)).toString() +"%";
 
             publishInformation.numberOfPublishesExceeded = false;
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
-
+            publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
 
             result.publishInformation = publishInformation;
 
@@ -252,14 +291,27 @@ app.post("/pubsub", (req, res) => {
 
         }else{
 
+            // check CPU usage before publishing to broker
+            let publishPreviousCpuUsage = process.cpuUsage();
+            
+            // spin the CPU for 500 milliseconds
+            const pubStartDate = Date.now();
+            while (Date.now() - pubStartDate < 500);
+
             // publish to topic
             pubSubClient.publish(topic, message);
 
+            // check CPU usage after publishing to broker 
+            const publishCurrentCpuUsage = process.cpuUsage(publishPreviousCpuUsage);
+
+            // calculate the actual cpu percentage used by the publish operation
+            const publishActualCpuUsagePercentage = Math.floor(100 * (publishCurrentCpuUsage.user + publishCurrentCpuUsage.system) / ((Date.now() - pubStartDate) * 1000)).toString() +"%";
+            
             publishInformation.numberOfPublishesExceeded = false;
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
-
+            publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
 
             result.publishInformation = publishInformation;
 
@@ -284,7 +336,7 @@ app.post("/pubsub", (req, res) => {
         publishInformation.numberOfPublishesExceeded = true;
         publishInformation.topic = "";
         publishInformation.message = "";
-
+        publishInformation.publishCpuUsage = "";
 
         result.publishInformation = publishInformation;
         
