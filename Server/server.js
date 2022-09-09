@@ -61,13 +61,13 @@ app.post("/pubsub", (req, res) => {
     // let randomNumber = Math.random()*1000;
     // let message = randomNumber.toString();
 
-    // generate a random message of size between 1kb and 1mb
+    // generate a random message of size of size 
     let numMessageByte = operations.convertKbToByte(userValues.messageSize);
     console.log("ByteValue: " + numMessageByte);
     let message = operations.generateMessage(numMessageByte);
-    let messageSize = operations.getMessageSize(message);
+    // let messageSize = operations.getMessageSize(message);
     // console.log(message);
-    console.log(messageSize);
+    // console.log(messageSize);
 
 
 
@@ -88,10 +88,15 @@ app.post("/pubsub", (req, res) => {
 
         // userValues.publishCount;
         // userValues.subscriptionCount
+        let receivedMessageSize = operations.getMessageSize(message);
+
+        // check the size of the received message
+        subscriptionInformation.receivedMessageSize = receivedMessageSize;
 
         // keep received subscribed topic's message 
         subscriptionInformation.topic = topic;
         subscriptionInformation.message = message.toString();
+
 
         // append publishInformation and subscriptionInformation arrays to result array
         result.publishInformation = publishInformation;
@@ -396,6 +401,15 @@ app.post("/pubsub", (req, res) => {
     // publish message 'Hello' to topic 'my/test/topic'
     
 });
+
+
+
+
+// the server will be listening on port
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`)
+ });
+
 
  module.exports = app;
  
