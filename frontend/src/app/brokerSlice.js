@@ -22,5 +22,5 @@ const brokerSlice = createSlice({
   }
 });
 
-export const { saveConfig } = brokerSlice.actions;
+export const { saveSettings } = brokerSlice.actions;
 export default brokerSlice.reducer;

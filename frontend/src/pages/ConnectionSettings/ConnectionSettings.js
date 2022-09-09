@@ -1,6 +1,6 @@
 import "./ConnectionSettings.css";
 import { genClientId } from "../../util";
-import { saveConfig } from "../../app/brokerSlice";
+import { saveSettings } from "../../app/brokerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ function ConnectionSettings() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const settings = useSelector(state => state.broker.settings);
-  
+
   let hostUrl;
   if (settings.protocol && settings.host) {
     hostUrl = settings.protocol + '://' + settings.host;
@@ -39,7 +39,7 @@ function ConnectionSettings() {
     }
     // if (!settings.clean) settings.clean = false;
     // console.log(settings);
-    dispatch(saveConfig(settings));
+    dispatch(saveSettings(settings));
     alert('Connection Settings Saved');
     navigate('/');
   }
