@@ -1,7 +1,16 @@
 import "./ConnectionSettings.css";
 import { genClientId } from "../../util";
+import { saveConfig } from "../../app/brokerSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function ConnectionSettings() {
+  const dispatch = useDispatch();
+  const settings = useSelector(state => state.broker.settings);
+  let hostUrl;
+  if (settings.protocol && settings.host) {
+    hostUrl = settings.protocol + '://' + settings.host;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     const form = e.target;
@@ -15,14 +24,19 @@ function ConnectionSettings() {
         settings.host = hostAddress[1];
         continue;
       }
-      if (name === "clean") {
-        value === "on" && (settings[name] = true);
+      if (name === 'port' && value !=='') {
+        settings.port = Number(value);
         continue;
       }
+      // if (name === "clean") {
+      //   value === "on" && (settings[name] = true);
+      //   continue;
+      // }
       settings[name] = value;
     }
-    if (!settings.clean) settings.clean = false;
-    console.log(settings);
+    // if (!settings.clean) settings.clean = false;
+    // console.log(settings);
+    dispatch(saveConfig(settings));
   }
   return (
     <div className="container">
@@ -37,8 +51,9 @@ function ConnectionSettings() {
                 id="client-name"
                 className="u-full-width"
                 name="clientName"
-                placeholder="Enter name for client"
+                placeholder="Enter short name for client"
                 required
+                defaultValue={settings.clientName}
               />
             </div>
             <div className="six columns">
@@ -48,8 +63,8 @@ function ConnectionSettings() {
                 id="client-id"
                 className="u-full-width"
                 name="clientId"
-                value={genClientId(16)}
                 required
+                defaultValue={genClientId(16)}
               />
             </div>
           </div>
@@ -63,6 +78,7 @@ function ConnectionSettings() {
                 name="host-address"
                 placeholder="E.g. mqtt://broker.hivemq.com"
                 required
+                defaultValue={hostUrl}
               />
             </div>
             <div className="two columns">
@@ -71,9 +87,11 @@ function ConnectionSettings() {
                 type="number"
                 id="port"
                 className="u-full-width"
+                name="port"
                 min="0"
-                defaultValue="1883"
+                placeholder="0"
                 required
+                defaultValue={settings.port}
               />
             </div>
           </div>
@@ -86,6 +104,7 @@ function ConnectionSettings() {
                 className="u-full-width"
                 name="username"
                 placeholder="Enter connection username"
+                defaultValue={settings.username}
               />
             </div>
             <div className="six columns">
@@ -96,15 +115,16 @@ function ConnectionSettings() {
                 className="u-full-width"
                 name="password"
                 placeholder="Enter connection password"
+                defaultValue={settings.password}
               />
             </div>
           </div>
-          <div className="row">
+          {/* <div className="row">
             <div className="three columns">
               <label htmlFor="clean-session">Clean Session: </label>
-              <input type="checkbox" id="clean-session" name="clean" />
+              <input type="checkbox" id="clean-session" name="clean" checked/>
             </div>
-          </div>
+          </div> */}
           <div className="row">
             <button type="submit" className="button-primary u-full-width">
               Save
