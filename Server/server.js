@@ -112,10 +112,11 @@ app.post("/pubsub", (req, res) => {
             // check CPU usage after publishing to broker 
             const subscribeCurrentCpuUsage = process.cpuUsage(subscribePreviousCpuUsage);
 
+            // check memory usage for subscribing to topic
+            let subscribeMemoryUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024).toString() +"MB";
 
             // calculate the actual cpu percentage used by the subscription operation
             const subscribeActualCpuUsagePercentage = Math.floor(100 * (subscribeCurrentCpuUsage.user + subscribeCurrentCpuUsage.system) / ((Date.now() - subStartDate) * 1000)).toString() +"%";
-
 
             // check CPU usage before publishing to broker
             let publishPreviousCpuUsage = process.cpuUsage();
@@ -140,6 +141,7 @@ app.post("/pubsub", (req, res) => {
             // store subscription information
             subscriptionInformation.numberOfSubscriptionsExceeded = false;
             subscriptionInformation.subscriptionCount = subscriptionCount;
+            subscriptionInformation.subscribeMemoryUsage = subscribeMemoryUsage;
             subscriptionInformation.subscribeActualCpuUsagePercentage = subscribeActualCpuUsagePercentage;
 
 
@@ -150,6 +152,7 @@ app.post("/pubsub", (req, res) => {
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
+            publishInformation.publishMemoryUsage = pubishMemoryUsage;
             publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
 
             publishCount++;
@@ -180,6 +183,7 @@ app.post("/pubsub", (req, res) => {
             subscriptionInformation.subscriptionCount = subscriptionCount;
             subscriptionInformation.topic = "";
             subscriptionInformation.message = "";
+            subscriptionInformation.subscribeMemoryUsage = "";
             subscriptionInformation.subscribeActualCpuUsagePercentage = "";
 
             // publish information section
@@ -187,6 +191,7 @@ app.post("/pubsub", (req, res) => {
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
+            publishInformation.publishMemoryUsage = pubishMemoryUsage;
             publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
 
             result.publishInformation = publishInformation;
@@ -219,6 +224,8 @@ app.post("/pubsub", (req, res) => {
              // check CPU usage after publishing to broker 
              const subscribeCurrentCpuUsage = process.cpuUsage(subscribePreviousCpuUsage);
  
+             // check memory usage for subscribing to topic
+             let subscribeMemoryUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024).toString() +"MB";
  
              // calculate the actual cpu percentage used by the subscription operation
              const subscribeActualCpuUsagePercentage = Math.floor(100 * (subscribeCurrentCpuUsage.user + subscribeCurrentCpuUsage.system) / ((Date.now() - subStartDate) * 1000)).toString() +"%";
@@ -228,6 +235,7 @@ app.post("/pubsub", (req, res) => {
             subscriptionInformation.subscriptionCount = subscriptionCount;
             subscriptionInformation.topic = topic;
             subscriptionInformation.message = "";
+            subscriptionInformation.subscribeMemoryUsage = subscribeMemoryUsage;
             subscriptionInformation.subscribeActualCpuUsagePercentage = subscribeActualCpuUsagePercentage;
 
     
@@ -247,6 +255,7 @@ app.post("/pubsub", (req, res) => {
             subscriptionInformation.subscriptionCount = subscriptionCount;
             subscriptionInformation.topic = "";
             subscriptionInformation.message = "";
+            subscriptionInformation.subscribeMemoryUsage = "";
             subscriptionInformation.subscribeActualCpuUsagePercentage = "";
 
             result.subscriptionInformation = subscriptionInformation;
@@ -281,6 +290,7 @@ app.post("/pubsub", (req, res) => {
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
+            publishInformation.publishMemoryUsage = pubishMemoryUsage;
             publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
 
             result.publishInformation = publishInformation;
@@ -311,6 +321,7 @@ app.post("/pubsub", (req, res) => {
             publishInformation.publishCount = publishCount;
             publishInformation.topic = topic;
             publishInformation.message = message;
+            publishInformation.publishMemoryUsage = pubishMemoryUsage;
             publishInformation.publishCpuUsage = publishActualCpuUsagePercentage;
 
             result.publishInformation = publishInformation;
@@ -328,6 +339,7 @@ app.post("/pubsub", (req, res) => {
         // subscriptionInformation.subscriptionCount = subscriptionCount;
         subscriptionInformation.topic = "";
         subscriptionInformation.message = "";
+        subscriptionInformation.subscribeMemoryUsage = "";
         subscriptionInformation.subscribeActualCpuUsagePercentage = "";
 
         result.subscriptionInformation = subscriptionInformation;
@@ -336,6 +348,7 @@ app.post("/pubsub", (req, res) => {
         publishInformation.numberOfPublishesExceeded = true;
         publishInformation.topic = "";
         publishInformation.message = "";
+        publishInformation.publishMemoryUsage = "";
         publishInformation.publishCpuUsage = "";
 
         result.publishInformation = publishInformation;
