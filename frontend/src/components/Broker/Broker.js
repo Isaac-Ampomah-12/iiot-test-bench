@@ -7,6 +7,7 @@ function Broker() {
   const messages = useSelector(state => state.broker.stats.messages);
   const network = useSelector(state => state.broker.stats.network);
   const performance = useSelector(state => state.broker.stats.performance);
+  const settings = useSelector(state => state.broker.settings);
 
     return (
       <section id="Broker">
@@ -17,16 +18,16 @@ function Broker() {
             <div className="info">
               <div className="info-item">
                 <span>
-                  <strong>Host:</strong>
+                  <strong>Name:</strong>
                 </span>
-                <span>broker.hivemq.com</span>
+                <span>{settings.clientName || 'No name'}</span>
               </div>
-              <div className="info-item">
+              {/* <div className="info-item">
                 <span>
                   <strong>Port:</strong>
                 </span>
-                <span>8080</span>
-              </div>
+                <span>{settings.port}</span>
+              </div> */}
               <div className="info-item">
                 <span>
                   <strong>Status:</strong>
