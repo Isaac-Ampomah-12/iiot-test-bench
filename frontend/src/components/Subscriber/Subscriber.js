@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Subscriber() {
   const [subNumber, setSubNumber] = useState(0);
   const [subTopicLevel, setTopicLevel] = useState(0);
+
+  const performance = useSelector(state => state.subscribe.stats.performance);
 
   return (
     <section>
@@ -15,6 +18,7 @@ function Subscriber() {
               type="number"
               id="no-of-sub"
               className="u-full-width"
+              min="0"
               value={subNumber}
               onChange={({ target }) => setSubNumber(target.value)}
             />
@@ -27,6 +31,7 @@ function Subscriber() {
               type="number"
               id="topic-levels"
               className="u-full-width"
+              min="0"
               value={subTopicLevel}
               onChange={({ target }) => setTopicLevel(target.value)}
             />
@@ -39,13 +44,13 @@ function Subscriber() {
               <span>
                 <strong>CPU:</strong>
               </span>
-              <span>0</span>
+              <span>{performance.cpu}</span>
             </div>
             <div className="info-item">
               <span>
                 <strong>Memory:</strong>
               </span>
-              <span>0</span>
+              <span>{performance.memory}</span>
             </div>
           </div>
         </div>
