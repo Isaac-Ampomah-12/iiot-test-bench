@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import brokerSlice from "./brokerSlice";
-import publishSlice from "./publishSlice";
-import subscribeSlice from "./subscribeSlice";
+import brokerSlice from "./slices/brokerSlice";
+import publishSlice from "./slices/publishSlice";
+import subscribeSlice from "./slices/subscribeSlice";
 
 export const store = configureStore({
   reducer: {

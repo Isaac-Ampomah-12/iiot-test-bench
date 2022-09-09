@@ -1,6 +1,6 @@
 import "./ConnectionSettings.css";
 import { genClientId } from "../../util";
-import { saveSettings } from "../../app/brokerSlice";
+import { saveSettings } from "../../app/slices/brokerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
