@@ -1,7 +1,10 @@
 import "./BrokerMetrics.css";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function BrokerMetrics() { 
+  const connection = useSelector(state => state.broker.connection);
+  
     return (
       <section id="Broker">
         <h2>Broker</h2>
@@ -25,7 +28,9 @@ function BrokerMetrics() {
                 <span>
                   <strong>Status:</strong>
                 </span>
-                <span style={{ color: "red" }}>Disconnected</span>
+                <span style={{ color: connection.color }}>
+                  {connection.msg}
+                </span>
               </div>
             </div>
           </div>
@@ -82,9 +87,18 @@ function BrokerMetrics() {
           </div>
         </div>
         <div className="buttons">
-          <button type="button" className="button-primary">
-            Connect
-          </button>
+          {connection.status ? (
+            <button
+              type="button"
+              style={{ backgroundColor: "#F70D1A", color: "white" }}
+            >
+              Disconnect
+            </button>
+          ) : (
+            <button type="button" className="button-primary">
+              Connect
+            </button>
+          )}
           <Link to="/settings" className="button">
             Settings
           </Link>
