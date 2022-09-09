@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 function BrokerMetrics() { 
   const connection = useSelector(state => state.broker.connection);
+  const messages = useSelector(state => state.broker.stats.messages);
   
     return (
       <section id="Broker">
@@ -41,13 +42,13 @@ function BrokerMetrics() {
                 <span>
                   <strong>Sent:</strong>
                 </span>
-                <span>0</span>
+                <span>{messages.sent}</span>
               </div>
               <div className="info-item">
                 <span>
                   <strong>Received:</strong>
                 </span>
-                <span>0</span>
+                <span>{messages.received}</span>
               </div>
             </div>
           </div>
