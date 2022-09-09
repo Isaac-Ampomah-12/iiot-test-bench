@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 function BrokerMetrics() { 
   const connection = useSelector(state => state.broker.connection);
   const messages = useSelector(state => state.broker.stats.messages);
-  
+  const network = useSelector(state => state.broker.stats.network);
+  const performance = useSelector(state => state.broker.stats.performance);
+
     return (
       <section id="Broker">
         <h2>Broker</h2>
@@ -59,13 +61,13 @@ function BrokerMetrics() {
                 <span>
                   <strong>Uplink:</strong>
                 </span>
-                <span>0</span>
+                <span>{network.uplink}</span>
               </div>
               <div className="info-item">
                 <span>
                   <strong>Downlink:</strong>
                 </span>
-                <span>0</span>
+                <span>{network.downlink}</span>
               </div>
             </div>
           </div>
@@ -76,13 +78,13 @@ function BrokerMetrics() {
                 <span>
                   <strong>CPU:</strong>
                 </span>
-                <span>0</span>
+                <span>{performance.cpu}</span>
               </div>
               <div className="info-item">
                 <span>
                   <strong>Memory:</strong>
                 </span>
-                <span>0</span>
+                <span>{performance.memory}</span>
               </div>
             </div>
           </div>
