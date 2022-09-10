@@ -30,11 +30,12 @@ connectRouter.post('/connect',(req, res) => {
     });
 
     //if the connection is unsuccessful this event will be triggered
-    brokerClient.on("error", (error) => {
+    brokerClient.on("error", (err) => {
         // this variable will hold a false value 
         let connectionStatus = brokerClient.connected;
+        let error = err;
         // a false value will be sent to the front end
-        res.send({connectionStatus});
+        res.send({connectionStatus, error});
     });
 
 });
