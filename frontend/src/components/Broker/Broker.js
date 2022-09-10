@@ -1,6 +1,7 @@
 import "./Broker.css";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { brokerConnect } from "../../app/slices/brokerSlice";
 
 function Broker() { 
   const connection = useSelector(state => state.broker.connection);
@@ -9,6 +10,7 @@ function Broker() {
   const performance = useSelector(state => state.broker.stats.performance);
   const settings = useSelector(state => state.broker.settings);
 
+  const dispatch = useDispatch();
     return (
       <section id="Broker">
         <h2>Broker</h2>
@@ -20,7 +22,7 @@ function Broker() {
                 <span>
                   <strong>Name:</strong>
                 </span>
-                <span>{settings.clientName || 'No name'}</span>
+                <span>{settings.clientName || 'Test Bench'}</span>
               </div>
               {/* <div className="info-item">
                 <span>
@@ -99,7 +101,10 @@ function Broker() {
               Disconnect
             </button>
           ) : (
-            <button type="button" className="button-primary">
+            <button
+              type="button"
+              className="button-primary"
+              onClick={() => {dispatch(brokerConnect(settings))}}>
               Connect
             </button>
           )}
