@@ -1,5 +1,5 @@
 import "./ConnectionSettings.css";
-import { genClientId } from "../../util";
+// import { genClientId } from "../../util";
 import { saveSettings } from "../../app/slices/brokerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +49,7 @@ function ConnectionSettings() {
         <h2>Connection settings</h2>
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <div className="six columns">
+            {/* <div className="six columns">
               <label htmlFor="name">Client Name:</label>
               <input
                 type="text"
@@ -60,8 +60,8 @@ function ConnectionSettings() {
                 required
                 defaultValue={settings.clientName}
               />
-            </div>
-            <div className="six columns">
+            </div> */}
+            {/* <div className="six columns">
               <label htmlFor="client-id">Client ID:</label>
               <input
                 type="text"
@@ -69,9 +69,9 @@ function ConnectionSettings() {
                 className="u-full-width"
                 name="clientId"
                 required
-                defaultValue={genClientId(16)}
+                defaultValue={settings.clientId || genClientId(16)}
               />
-            </div>
+            </div> */}
           </div>
           <div className="row">
             <div className="ten columns">
