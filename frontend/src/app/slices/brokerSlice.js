@@ -32,7 +32,10 @@ const brokerSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    
+    builder.addCase(brokerConnect.pending, (state, action) => {
+      state.connection.msg = "Connecting...";
+      state.connection.color = "orange";
+    });
   }
 });
 
