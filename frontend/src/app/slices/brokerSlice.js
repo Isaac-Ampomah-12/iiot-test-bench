@@ -32,9 +32,22 @@ const brokerSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(brokerConnect.pending, (state, action) => {
+    builder
+    .addCase(brokerConnect.pending, (state, action) => {
       state.connection.msg = "Connecting...";
       state.connection.color = "orange";
+    })
+    .addCase(brokerConnect.fulfilled, (state, action) => {
+      const status = action.payload;
+      if (status.connectionStatus) {
+        state.connection.status = true;
+        state.connection.msg = "Connected";
+        state.connection.color = "green";
+      } else {
+        state.connection.status = false;
+        state.connection.msg = "Network error";
+        state.connection.color = "red";
+      }
     });
   }
 });
