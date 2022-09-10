@@ -1,4 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { connectToBroker } from "../actions/brokerActions";
+
+export const brokerConnect = createAsyncThunk(
+  'broker/connect',
+  async (settings, thunkAPI) => {
+    const response = await connectToBroker(settings);
+    const jsonResponse = await response.json();
+    return jsonResponse;
+  }
+);
 
 const brokerSlice = createSlice({
   name: "broker",
