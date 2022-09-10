@@ -1,13 +1,16 @@
-import "./BrokerMetrics.css";
+import "./Broker.css";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { brokerConnect } from "../../app/slices/brokerSlice";
 
-function BrokerMetrics() { 
+function Broker() { 
   const connection = useSelector(state => state.broker.connection);
   const messages = useSelector(state => state.broker.stats.messages);
   const network = useSelector(state => state.broker.stats.network);
   const performance = useSelector(state => state.broker.stats.performance);
+  const settings = useSelector(state => state.broker.settings);
 
+  const dispatch = useDispatch();
     return (
       <section id="Broker">
         <h2>Broker</h2>
@@ -17,16 +20,16 @@ function BrokerMetrics() {
             <div className="info">
               <div className="info-item">
                 <span>
-                  <strong>Host:</strong>
+                  <strong>Name:</strong>
                 </span>
-                <span>broker.hivemq.com</span>
+                <span>{settings.clientName || 'Test Bench'}</span>
               </div>
-              <div className="info-item">
+              {/* <div className="info-item">
                 <span>
                   <strong>Port:</strong>
                 </span>
-                <span>8080</span>
-              </div>
+                <span>{settings.port}</span>
+              </div> */}
               <div className="info-item">
                 <span>
                   <strong>Status:</strong>
@@ -98,7 +101,10 @@ function BrokerMetrics() {
               Disconnect
             </button>
           ) : (
-            <button type="button" className="button-primary">
+            <button
+              type="button"
+              className="button-primary"
+              onClick={() => {dispatch(brokerConnect(settings))}}>
               Connect
             </button>
           )}
@@ -110,4 +116,4 @@ function BrokerMetrics() {
     );
 }
 
-export default BrokerMetrics;
+export default Broker;
