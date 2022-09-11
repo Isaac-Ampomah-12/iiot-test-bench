@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSettings } from "../../app/slices/pubSubSlice";
 
 function Publisher() {
   const [pubNumber, setPubNumber] = useState(0);
@@ -8,6 +9,17 @@ function Publisher() {
   const [msgSize, setMsgSize] = useState(0);
 
   const stats = useSelector(state => state.publish.stats);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const settings = {
+      numberOfPublishers: pubNumber,
+      pubblishTopicLevel: pubTopicLevel,
+      messageSize: msgSize,
+    };
+    dispatch(setSettings(settings));
+  }, [pubNumber, pubTopicLevel, msgSize, dispatch]);
+
   return (
     <section id="publisher">
       <h2>Publisher</h2>
