@@ -1,12 +1,22 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSettings } from "../../app/slices/pubSubSlice";
 
 function Subscriber() {
   const [subNumber, setSubNumber] = useState(0);
   const [subTopicLevel, setTopicLevel] = useState(0);
 
   const performance = useSelector(state => state.subscribe.stats.performance);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    const settings = {
+      numberOfSubscribers: subNumber,
+      subscriptionTopicLevel: subTopicLevel,
+    };
+    dispatch(setSettings(settings));
+  }, [subNumber, subTopicLevel, dispatch]);
+  
   return (
     <section>
       <h2>Subscriber</h2>
