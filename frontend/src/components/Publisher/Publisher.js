@@ -5,6 +5,7 @@ function Publisher() {
   const [pubNumber, setPubNumber] = useState(0);
   const [pubInterval, setPubInterval] = useState(0);
   const [pubTopicLevel, setPubTopicLevel] = useState(0);
+  const [msgSize, setmsgSize] = useState(0);
 
   const stats = useSelector(state => state.publish.stats);
   return (
@@ -63,6 +64,7 @@ function Publisher() {
             htmlFor="message-size"
             style={{ display: "inline", paddingLeft: "1rem" }}
           >
+            {msgSize}
           </output>
           <div
             style={{
@@ -79,6 +81,7 @@ function Publisher() {
               max="1024"
               step="2"
               style={{ marginBottom: "0" }}
+              value={msgSize}
             />
           </div>
         </div>
