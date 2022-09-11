@@ -11,7 +11,7 @@ function Publisher() {
     <section id="publisher">
       <h2>Publisher</h2>
       <div className="row">
-        <div className="three columns">
+        <div className="four columns">
           <label htmlFor="no-of-pub">No. of publishers:</label>
           <input
             type="number"
@@ -23,7 +23,7 @@ function Publisher() {
             onChange={({ target }) => setPubNumber(target.value)}
           />
         </div>
-        <div className="three columns">
+        <div className="four columns">
           <div>
             <label htmlFor="topic-levels">Topic Levels:</label>
             <input
@@ -37,6 +37,52 @@ function Publisher() {
           </div>
         </div>
         <div className="three columns">
+          <h3>Performance</h3>
+          <div className="info">
+            <div className="info-item">
+              <span>
+                <strong>CPU:</strong>
+              </span>
+              <span>{stats.performance.cpu}</span>
+            </div>
+            <div className="info-item">
+              <span>
+                <strong>Memory:</strong>
+              </span>
+              <span>{stats.performance.memory}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row" style={{ paddingTop: "0" }}>
+        <div className="four columns">
+          <label htmlFor="message-size" style={{ display: "inline" }}>
+            Message Size: &#40;kb&#41;:
+          </label>
+          <output
+            htmlFor="message-size"
+            style={{ display: "inline", paddingLeft: "1rem" }}
+          >
+          </output>
+          <div
+            style={{
+              marginTop: "1rem",
+              display: "flex",
+              justityContent: "center",
+            }}
+          >
+            <input
+              type="range"
+              id="message-size"
+              className="u-full-width"
+              min="0"
+              max="1024"
+              step="2"
+              style={{ marginBottom: "0" }}
+            />
+          </div>
+        </div>
+        <div className="four columns">
           <label htmlFor="interval" style={{ display: "inline" }}>
             Interval &#40;ms&#41;:
           </label>
@@ -65,23 +111,6 @@ function Publisher() {
               onChange={({ target }) => setPubInterval(target.value)}
               style={{ marginBottom: "0" }}
             />
-          </div>
-        </div>
-        <div className="three columns">
-          <h3>Performance</h3>
-          <div className="info">
-            <div className="info-item">
-              <span>
-                <strong>CPU:</strong>
-              </span>
-              <span>{stats.performance.cpu}</span>
-            </div>
-            <div className="info-item">
-              <span>
-                <strong>Memory:</strong>
-              </span>
-              <span>{stats.performance.memory}</span>
-            </div>
           </div>
         </div>
       </div>
