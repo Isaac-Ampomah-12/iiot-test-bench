@@ -5,7 +5,7 @@ function Publisher() {
   const [pubNumber, setPubNumber] = useState(0);
   const [pubInterval, setPubInterval] = useState(0);
   const [pubTopicLevel, setPubTopicLevel] = useState(0);
-  const [msgSize, setmsgSize] = useState(0);
+  const [msgSize, setMsgSize] = useState(0);
 
   const stats = useSelector(state => state.publish.stats);
   return (
@@ -82,6 +82,7 @@ function Publisher() {
               step="2"
               style={{ marginBottom: "0" }}
               value={msgSize}
+              onChange={({target}) => setMsgSize(target.value)}
             />
           </div>
         </div>
@@ -109,7 +110,6 @@ function Publisher() {
               min="0"
               max="10000"
               step="100"
-              title={pubInterval}
               value={pubInterval}
               onChange={({ target }) => setPubInterval(target.value)}
               style={{ marginBottom: "0" }}
