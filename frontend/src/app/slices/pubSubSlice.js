@@ -24,6 +24,12 @@ export const pubSubSlice = createSlice({
         state.settings[property] = Number(settings[property]);
       }
     }
+  },
+  extraReducers: (builder) => {
+    builder
+    .addCase(getPubSubStats.pending, () => {
+      console.log('/pubsub API in pending state');
+    })
   }
 });
 
