@@ -15,11 +15,6 @@ const brokerSlice = createSlice({
   name: "broker",
   initialState: {
     settings: {},
-    stats: {
-      messages: { sent: 0, received: 0 },
-      network: { uplink: 0, downlink: 0 },
-      performance: { cpu: 0, memory: 0 }
-    },
     connection: { 
       status: false,
       msg: 'Not connected',
@@ -33,7 +28,7 @@ const brokerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(brokerConnect.pending, (state, action) => {
+      .addCase(brokerConnect.pending, (state) => {
         state.connection.msg = "Connecting...";
         state.connection.color = "orange";
       })
@@ -44,13 +39,12 @@ const brokerSlice = createSlice({
           state.connection.msg = "Connected";
           state.connection.color = "green";
         } else {
-          state.connection.status = false;
-          state.connection.msg = "Network error";
+          state.connection.msg = "Connection failed";
           state.connection.color = "red";
         }
       })
-      .addCase(brokerConnect.rejected, (state, action) => {
-        state.connection.msg = "Connection failed";
+      .addCase(brokerConnect.rejected, (state) => {
+        state.connection.msg = "Connection rejected";
         state.connection.color = "red";
       });
   }
