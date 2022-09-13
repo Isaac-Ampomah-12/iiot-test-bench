@@ -11,6 +11,8 @@ Capstone project for [Amalitech Training Academy](https://amalitech.org/ghana-tr
 * [Features](#features)
 * [Screenshot](#screenshot)
 * [Setup](#setup)
+* [Contributors](#contributors)
+
 
 ### General Information
 
@@ -67,3 +69,8 @@ in backend folder
 
 **NB:** Nodemon must be installed globally with npm. Install nodemon globally with this command  
 `npm install -g nodemon`
+
+### Contributors
+
+* Frontend - [Prince Twumasi Asamoah](mailto:prince.asamoah@amalitech.org)
+* Backend - [Isaac Ampomah](mailto:isaac.ampomah@amalitech.org)
