@@ -28,12 +28,15 @@ export const pubSubSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getPubSubStats.pending, () => {
-        console.log("/pubsub API in pending state");
+        console.log("/pubsub API request in pending state");
       })
       .addCase(getPubSubStats.fulfilled, (state, action) => {
         const { publishInformation, subscriptionInformation } = action.payload;
         state.pub = publishInformation;
         state.sub = subscriptionInformation;
+      })
+      .addCase(getPubSubStats.rejected, () => {
+        console.log("/pubsub API request rejected");
       })
   }
 });
