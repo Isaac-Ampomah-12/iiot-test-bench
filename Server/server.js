@@ -1,34 +1,27 @@
+// import express
 const express = require('express');
 const app = express();
-const mqtt = require('mqtt');
-var randomWords = require('random-words');
-let operations = require('./operations/operations');
 
+// import routers
 const connectRouter = require('./routes/connect');
 const pubSubRouter = require('./routes/pubSub');
+const testPubSubRouter = require('./routes/testPubSub');
 
-const cors = require("cors");
-app.use(
-  cors({
-    origin: "*"
-
-  })
-)
-// parse the incoming requests with JSON payloads 
-app.use(express.json());
-
-// set the port 
+// set port to listen on
 const port = process.env.PORT || 8080;
 
-// routers
+// parse the incoming requests with JSON payloads
+app.use(express.json());
+
+// reference and use routers 
 app.use('/broker', connectRouter);
 app.use('/pubsub', pubSubRouter);
+app.use('/test', testPubSubRouter);
 
-// the server will be listening on port
+// set the port the server to listin on
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`)
-});
+ });
 
-
-module.exports = app;
-    
+ // export app
+ module.exports = app;
