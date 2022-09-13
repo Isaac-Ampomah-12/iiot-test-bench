@@ -1,24 +1,24 @@
 import "./ConnectionSettings.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
-import { saveSettings } from "../../app/slices/brokerSlice";
+import { saveSettings, connectBroker } from "../../app/slices/brokerSlice";
 // import { genClientId } from "../../util";
 
 function ConnectionSettings() {
-  const [settings, setSettings] = useState({});
 
+  // const connection = useSelector((state) => state.broker.connection);
+  // console.log(connection.status);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const settings = useSelector(state => state.broker.settings);
+ 
+  const settings = useSelector(state => state.broker.settings);
 
-  let hostUrl;
+  let hostUrl = '';
   if (settings.protocol && settings.host) {
     hostUrl = settings.protocol + '://' + settings.host;
   }
 
-  function handleSubmit(e) {
+  function handleSubmit (e) {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
@@ -36,16 +36,16 @@ function ConnectionSettings() {
         continue;
       }
       // if (name === "clean") {
-      //   value === "on" && (settings[name] = true);
-      //   continue;
-      // }
-      settings[name] = value;
-    }
+        //   value === "on" && (settings[name] = true);
+        //   continue;
+        // }
+        settings[name] = value;
+      }
     // if (!settings.clean) settings.clean = false;
-    // console.log(settings);
     dispatch(saveSettings(settings));
-    alert('Connection Settings Saved');
-    navigate('/');
+    dispatch(connectBroker(settings))
+    .then(() => {
+      navigate("/")});
   }
   return (
     <div className="container">
