@@ -13,7 +13,6 @@ Capstone project for [Amalitech Training Academy](https://amalitech.org/ghana-tr
 * [Setup](#setup)
 * [Contributors](#contributors)
 
-
 ### General Information
 
 The heart of a IIoT solution is a message broker. Several technologies are available here,  
