@@ -1,13 +1,17 @@
 import "./ConnectionSettings.css";
-// import { genClientId } from "../../util";
-import { saveSettings } from "../../app/slices/brokerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import { saveSettings } from "../../app/slices/brokerSlice";
+// import { genClientId } from "../../util";
 
 function ConnectionSettings() {
+  const [settings, setSettings] = useState({});
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const settings = useSelector(state => state.broker.settings);
+  // const settings = useSelector(state => state.broker.settings);
 
   let hostUrl;
   if (settings.protocol && settings.host) {
@@ -132,7 +136,7 @@ function ConnectionSettings() {
           </div> */}
           <div className="row">
             <button type="submit" className="button-primary u-full-width">
-              Save
+              Connect
             </button>
           </div>
         </form>
