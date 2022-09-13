@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const pubSubSlice = createSlice({
-  name: "pubSub",
+  name: "pubsub",
   initialState: {
     settings: {},
+    pub: {},
+    sub: {}
   },
   reducers: {
     setSettings(state, action) {
@@ -11,8 +13,8 @@ export const pubSubSlice = createSlice({
       for (const property in settings) {
         state.settings[property] = Number(settings[property]);
       }
-    },
-  },
+    }
+  }
 });
 
 export const { setSettings } = pubSubSlice.actions;
