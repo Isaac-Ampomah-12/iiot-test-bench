@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { connectToBroker } from "../actions/brokerActions";
+import { brokerConnectAPI } from "../actions/brokerActions";
 
-export const brokerConnect = createAsyncThunk(
+export const connectBroker = createAsyncThunk(
   'broker/connect',
   async (settings, thunkAPI) => {
-    const response = await connectToBroker(settings);
+    const response = await brokerConnectAPI(settings);
     const jsonResponse = await response.json();
     return jsonResponse;
   }
@@ -28,11 +28,11 @@ const brokerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(brokerConnect.pending, (state) => {
+      .addCase(connectBroker.pending, (state) => {
         state.connection.msg = "Connecting...";
         state.connection.color = "orange";
       })
-      .addCase(brokerConnect.fulfilled, (state, action) => {
+      .addCase(connectBroker.fulfilled, (state, action) => {
         const status = action.payload;
         if (status.connectionStatus) {
           state.connection.status = true;
@@ -43,7 +43,7 @@ const brokerSlice = createSlice({
           state.connection.color = "red";
         }
       })
-      .addCase(brokerConnect.rejected, (state) => {
+      .addCase(connectBroker.rejected, (state) => {
         state.connection.msg = "Connection rejected";
         state.connection.color = "red";
       });
