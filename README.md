@@ -8,6 +8,7 @@ Capstone project for [Amalitech Training Academy](https://amalitech.org/ghana-tr
 
 * [General Info](#general-information)
 * [Technology Used](#technology-used)
+* [Features](#features)
 
 ### General Info
 
@@ -32,4 +33,9 @@ networks, persistence, security and compression of IoT data. This project seeks 
   * Cors - version 2.8.5
   * Mqtt - version 4.3.7
   * Random-Words - version 1.2.0
-  
+
+### Features
+
+* Configure and test connection to broker
+* Configure and test publishing and sucbscription
+* View publishing and subscription performance report
