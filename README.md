@@ -10,6 +10,7 @@ Capstone project for [Amalitech Training Academy](https://amalitech.org/ghana-tr
 * [Technology Used](#technology-used)
 * [Features](#features)
 * [Screenshot](#screenshot)
+* [Setup](#setup)
 
 ### General Information
 
@@ -50,3 +51,19 @@ Dashboard
 Connection Settings
 
 ![Connection Settings](./frontend/src/screenshot/broker-settings.png)
+
+### Setup
+
+Run this command in a terminal (e.g. Git bash recommended for Windows OS) in both frontend and server folder to install dependencies:  
+`npm install`
+
+**NB:** [NodeJS](https://nodejs.org/en/) must be installed on your local machine which comes with a package manager **npm** before you can use this command.
+
+Start the application after dependencies have being installed with:
+`npm start`
+in frontend folder and  
+`nodemon server.js`
+in backend folder  
+
+**NB:** Nodemon must be installed globally with npm. Install nodemon globally with this command  
+`npm install -g nodemon`
