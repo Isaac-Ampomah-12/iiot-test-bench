@@ -3,22 +3,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { setSettings } from "../../app/slices/pubSubSlice";
 
 function Publisher() {
-  const [pubNumber, setPubNumber] = useState(0);
-  const [pubInterval, setPubInterval] = useState(0);
-  const [pubTopicLevel, setPubTopicLevel] = useState(0);
-  const [msgSize, setMsgSize] = useState(0);
+  const [pubNumber, setPubNumber] = useState(1);
+  const [pubInterval, setPubInterval] = useState(10);
+  const [pubTopicLevel, setPubTopicLevel] = useState(1);
+  const [msgSize, setMsgSize] = useState(1);
 
-  const stats = useSelector(state => state.publish.stats);
+  const performance = useSelector(state => state.pubsub.pub);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const settings = {
       numberOfPublishers: pubNumber,
-      pubblishTopicLevel: pubTopicLevel,
+      publishTopicLevel: pubTopicLevel,
+      publishInterval: pubInterval,
       messageSize: msgSize,
     };
     dispatch(setSettings(settings));
-  }, [pubNumber, pubTopicLevel, msgSize, dispatch]);
+  }, [pubNumber, pubTopicLevel, pubInterval, msgSize, dispatch]);
 
   return (
     <section id="publisher">
@@ -31,7 +32,7 @@ function Publisher() {
             id="no-of-pub"
             className="u-full-width"
             name="publisherNumber"
-            min="0"
+            min="1"
             value={pubNumber}
             onChange={({ target }) => setPubNumber(target.value)}
           />
@@ -43,7 +44,7 @@ function Publisher() {
               type="number"
               id="topic-levels"
               className="u-full-width"
-              min="0"
+              min="1"
               value={pubTopicLevel}
               onChange={({ target }) => setPubTopicLevel(target.value)}
             />
@@ -56,13 +57,13 @@ function Publisher() {
               <span>
                 <strong>CPU:</strong>
               </span>
-              <span>{stats.performance.cpu}</span>
+              <span>{performance.publishCpuUsage || 0}</span>
             </div>
             <div className="info-item">
               <span>
                 <strong>Memory:</strong>
               </span>
-              <span>{stats.performance.memory}</span>
+              <span>{performance.publishMemoryUsage || 0}</span>
             </div>
           </div>
         </div>
@@ -89,9 +90,9 @@ function Publisher() {
               type="range"
               id="message-size"
               className="u-full-width"
-              min="0"
+              min="1"
               max="1024"
-              step="2"
+              step="1"
               style={{ marginBottom: "0" }}
               value={msgSize}
               onChange={({target}) => setMsgSize(target.value)}

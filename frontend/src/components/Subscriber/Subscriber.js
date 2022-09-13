@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSettings } from "../../app/slices/pubSubSlice";
 
 function Subscriber() {
-  const [subNumber, setSubNumber] = useState(0);
-  const [subTopicLevel, setTopicLevel] = useState(0);
+  const [subNumber, setSubNumber] = useState(1);
+  const [subTopicLevel, setTopicLevel] = useState(1);
 
-  const performance = useSelector(state => state.subscribe.stats.performance);
+  // const performance = useSelector(state => state.subscribe.stats.performance);
+  const performance = useSelector(state => state.pubsub.sub);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function Subscriber() {
               type="number"
               id="no-of-sub"
               className="u-full-width"
-              min="0"
+              min="1"
               value={subNumber}
               onChange={({ target }) => setSubNumber(target.value)}
             />
@@ -41,7 +42,7 @@ function Subscriber() {
               type="number"
               id="topic-levels"
               className="u-full-width"
-              min="0"
+              min="1"
               value={subTopicLevel}
               onChange={({ target }) => setTopicLevel(target.value)}
             />
@@ -54,13 +55,13 @@ function Subscriber() {
               <span>
                 <strong>CPU:</strong>
               </span>
-              <span>{performance.cpu}</span>
+              <span>{performance.subscribeActualCpuUsagePercentage || 0}</span>
             </div>
             <div className="info-item">
               <span>
                 <strong>Memory:</strong>
               </span>
-              <span>{performance.memory}</span>
+              <span>{performance.subscribeMemoryUsage || 0}</span>
             </div>
           </div>
         </div>

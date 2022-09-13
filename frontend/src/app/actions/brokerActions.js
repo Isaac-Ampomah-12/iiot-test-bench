@@ -1,4 +1,4 @@
-export function connectToBroker(settings) {
+export function brokerConnectAPI(settings) {
   try {
     const response = fetch(`${process.env.REACT_APP_API_URL}/broker/connect`, {
       method: "POST",
