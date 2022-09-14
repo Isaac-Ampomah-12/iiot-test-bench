@@ -145,6 +145,13 @@ pubSubRouter.post('', (req, res) => {
         }, userValues.publishInterval); 
         
     });
+
+    pubSubClient.on("error", (error) => {
+        // this variable will hold a false value 
+        result.connected = pubSubClient.connected;
+        // a false value will be sent to the front end
+        res.send(result);
+    });
 });
 
 // export router
