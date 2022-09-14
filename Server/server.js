@@ -7,6 +7,15 @@ const connectRouter = require('./routes/connect');
 const pubSubRouter = require('./routes/pubSub');
 const testPubSubRouter = require('./routes/testPubSub');
 
+// handle cors
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "*"
+
+  })
+)
+
 // set port to listen on
 const port = process.env.PORT || 8080;
 
