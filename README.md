@@ -11,6 +11,7 @@ Capstone project for [Amalitech Training Academy](https://amalitech.org/ghana-tr
 * [Features](#features)
 * [Screenshot](#screenshot)
 * [Setup](#setup)
+* [Usage](#usage)
 * [Contributors](#contributors)
 
 ### General Information
@@ -45,11 +46,11 @@ networks, persistence, security and compression of IoT data. This project seeks 
 
 ### Screenshot
 
-Dashboard
+#### Dashboard
 
 ![Dashboard](./frontend/src/screenshot/dashboard.png)
 
-Connection Settings
+#### Connection Settings
 
 ![Connection Settings](./frontend/src/screenshot/broker-settings.png)
 
@@ -62,12 +63,17 @@ Run this command in a terminal (e.g. Git bash recommended for Windows OS) in bot
 
 Start the application after dependencies have being installed with:
 `npm start`
-in frontend folder and  
-`nodemon server.js`
-in backend folder  
+in both frontend and backend folder.
 
-**NB:** Nodemon must be installed globally with npm. Install nodemon globally with this command  
-`npm install -g nodemon`
+### Usage
+
+1. Go to the connection settings page by clicking on settings on the broker section.
+2. Fill the settings form with broker connection credentials.
+3. Click connect button to establish connection with broker. You'll be redirect to the dashboard to check connection status.
+4. If connection is successful, status will be 'Connected' else try reconnecting again.
+5. At the publisher and subscriber section, you set the number of publishers and subscribers, topic levels,  
+message size and publish interval to test the broker performance.
+6. Click the start button multiple times upon changing the above inputs to view broker performance alongside its performance on publishing and subscription.
 
 ### Contributors
 
