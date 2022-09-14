@@ -20,21 +20,21 @@ function Broker() {
     <section id="Broker">
       <h2>Broker</h2>
       <div className="row">
-        <div className="four columns">
+        <div className="eight columns">
           <h3>Connection</h3>
           <div className="info">
             <div className="info-item">
               <span>
-                <strong>Name:</strong>
+                <strong>Host:</strong>
               </span>
-              <span>{brokerSettings.clientName || "Test Bench"}</span>
+              <span>{brokerSettings.host || "No host"}</span>
             </div>
-            {/* <div className="info-item">
+            <div className="info-item">
               <span>
                 <strong>Port:</strong>
               </span>
-              <span>{settings.port}</span>
-            </div> */}
+              <span>{brokerSettings.port || "No port"}</span>
+            </div>
             <div className="info-item">
               <span>
                 <strong>Status:</strong>
@@ -43,7 +43,7 @@ function Broker() {
             </div>
           </div>
         </div>
-        <div className="three columns">
+        {/* <div className="three columns">
           <h3>Messages</h3>
           <div className="info">
             <div className="info-item">
@@ -59,8 +59,8 @@ function Broker() {
               <span>{0}</span>
             </div>
           </div>
-        </div>
-        <div className="two columns">
+        </div> */}
+        {/* <div className="two columns">
           <h3>Network</h3>
           <div className="info">
             <div className="info-item">
@@ -76,8 +76,8 @@ function Broker() {
               <span>{0}</span>
             </div>
           </div>
-        </div>
-        <div className="two columns">
+        </div> */}
+        <div className="three columns">
           <h3>Performance</h3>
           <div className="info">
             <div className="info-item">
@@ -99,7 +99,7 @@ function Broker() {
         <button
           type="button"
           className="button-primary"
-          onClick={start()}
+          onClick={() => start()}
         >
           Start
         </button>
