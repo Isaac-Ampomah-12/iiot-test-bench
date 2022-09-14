@@ -57,13 +57,13 @@ function Publisher() {
               <span>
                 <strong>CPU:</strong>
               </span>
-              <span>{performance.publishCpuUsage || 0}</span>
+              <span>{performance.cpu || 0}</span>
             </div>
             <div className="info-item">
               <span>
                 <strong>Memory:</strong>
               </span>
-              <span>{performance.publishMemoryUsage || 0}</span>
+              <span>{performance.memory || 0}</span>
             </div>
           </div>
         </div>
