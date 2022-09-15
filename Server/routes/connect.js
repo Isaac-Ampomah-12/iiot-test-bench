@@ -13,11 +13,22 @@ connectRouter.post('/connect',(req, res) => {
     // attempts to connect to broker
     let brokerClient = mqtt.connect(options);
 
+    // if the connection is unsuccessful this event will be triggered
+    brokerClient.on("error", function(err) {
+        // this variable will hold a false value 
+        let connectionStatus = brokerClient.connected;
+        let error = err;
+        console.log('error', connectionStatus);
+        // a false value will be sent to the front end
+        res.send({connectionStatus, error});
+        brokerClient.end();
+    });
+
     // if the connection is successful this event will be triggered
-    brokerClient.on("connect", () => {
+    brokerClient.on("connect", function() {
         // this variable will hold true 
         let connectionStatus = brokerClient.connected
-
+        console.log( 'connected',connectionStatus);
         // store broker connection credentials into process environment
         process.env.host = options.host;
         process.env.port = options.port;
@@ -26,18 +37,8 @@ connectRouter.post('/connect',(req, res) => {
         process.env.password = options.password;
         
         // a true value will be sent to the front end
-        res.send({connectionStatus});
+        return res.send({connectionStatus});
     });
-
-    //if the connection is unsuccessful this event will be triggered
-    brokerClient.on("error", (err) => {
-        // this variable will hold a false value 
-        let connectionStatus = brokerClient.connected;
-        let error = err;
-        // a false value will be sent to the front end
-        res.send({connectionStatus, error});
-    });
-
 });
 
 // this will export the connectRouter
