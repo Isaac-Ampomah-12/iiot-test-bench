@@ -123,12 +123,12 @@ pubSubRouter.post('', (req, res) => {
                     clearInterval(pubLoop);
 
                     // store total CPU and memory used for subscription into subscriptionInformation
-                    subscriptionInformation.cpu = Math.floor(totalSubCpu / userValues.numberOfSubscribers) + "%";
-                    subscriptionInformation.memory = Math.floor(totalSubMemory) + " MB";
+                    subscriptionInformation.cpu = Math.floor(totalSubCpu / userValues.numberOfSubscribers);
+                    subscriptionInformation.memory = Math.floor(totalSubMemory);
 
                     // store total CPU and memory used for publishing into publishInformation
-                    publishInformation.cpu = Math.floor(totalPubCpu / userValues.numberOfPublishers) + "%";
-                    publishInformation.memory = Math.floor(totalPubMemory) + " MB";
+                    publishInformation.cpu = Math.floor(totalPubCpu / userValues.numberOfPublishers);
+                    publishInformation.memory = Math.floor(totalPubMemory);
 
                     // append subscriptionInformation and publishInformation objects to result object
                     result.subscriptionInformation = subscriptionInformation;
