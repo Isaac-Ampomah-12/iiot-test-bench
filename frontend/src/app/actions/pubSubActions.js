@@ -2,7 +2,7 @@ export function pubSubStatsAPI(settings) {
   try {
     const response = fetch(`${process.env.REACT_APP_API_URL}/pubsub`, {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
