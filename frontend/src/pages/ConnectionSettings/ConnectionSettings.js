@@ -43,9 +43,8 @@ function ConnectionSettings() {
       }
     // if (!settings.clean) settings.clean = false;
     dispatch(saveSettings(settings));
-    dispatch(connectBroker(settings))
-    .then(() => {
-      navigate("/")});
+    alert('Connection settings saved!');
+    navigate('/');
   }
   return (
     <div className="container">
