@@ -1,5 +1,6 @@
 import "./ConnectionSettings.css";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
 // import { genClientId } from "../../util";
 
@@ -147,6 +148,9 @@ function ConnectionSettings() {
             <button type="button" className="button" onClick={connect}>
               Connect to broker
             </button>
+          </div>
+          <div style={{ textAlign: "center", marginTop: "1rem" }}>
+            <Link to="/">&#60;&#60; Back</Link>
           </div>
         </form>
         <div
