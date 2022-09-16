@@ -32,7 +32,9 @@ export const pubSubSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getPubSubStats.pending, () => {
+      .addCase(getPubSubStats.pending, (state) => {
+        state.connection.message = "Connecting...";
+        state.connection.color = "orange";
         console.log("/pubsub API request pending");
       })
       .addCase(getPubSubStats.fulfilled, (state, action) => {
