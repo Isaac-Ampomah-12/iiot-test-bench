@@ -4,16 +4,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPubSubStats } from "../../app/slices/pubSubSlice";
 
 function Broker() { 
-  const connection = useSelector(state => state.broker.connection);
+  // const connection = useSelector(state => state.broker.connection);
   // const messages = useSelector(state => state.broker.stats.messages);
   // const network = useSelector(state => state.broker.stats.network);
   // const performance = useSelector(state => state.broker.stats.performance);
+  const dispatch = useDispatch();
   const brokerSettings = useSelector(state => state.broker.settings);
   const pubSubSettings = useSelector(state => state.pubsub.settings);
-  const dispatch = useDispatch();
-  
+  const connection = useSelector(state => state.pubsub.connection);
+
   function start() {
-    dispatch(getPubSubStats(pubSubSettings));
+    if (Object.keys(brokerSettings).length !== 0) {
+      dispatch(getPubSubStats(pubSubSettings));
+    } else {
+      alert('No connection settings');
+    }
   }
 
   return (
@@ -39,7 +44,7 @@ function Broker() {
               <span>
                 <strong>Status:</strong>
               </span>
-              <span style={{ color: connection.color }}>{connection.msg}</span>
+              <span style={{ color: connection.color }}>{connection.message}</span>
             </div>
           </div>
         </div>
