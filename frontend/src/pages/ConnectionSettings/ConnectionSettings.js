@@ -150,7 +150,7 @@ function ConnectionSettings() {
             </button>
           </div>
           <div style={{ textAlign: "center", marginTop: "1rem" }}>
-            <Link to="/">&#60;&#60; Back</Link>
+            <Link to="/">&#60;&#60; Back to dashboard</Link>
           </div>
         </form>
         <div
