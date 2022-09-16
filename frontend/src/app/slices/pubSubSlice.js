@@ -51,7 +51,9 @@ export const pubSubSlice = createSlice({
           state.connection.color = "red";
         }
       })
-      .addCase(getPubSubStats.rejected, () => {
+      .addCase(getPubSubStats.rejected, (state) => {
+        state.connection.message = "Connection failed";
+        state.connection.color = "red";
         console.log("/pubsub API request rejected");
       })
   }
