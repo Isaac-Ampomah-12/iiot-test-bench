@@ -32,15 +32,28 @@ export const pubSubSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getPubSubStats.pending, () => {
+      .addCase(getPubSubStats.pending, (state) => {
+        state.connection.message = "Connecting...";
+        state.connection.color = "orange";
         console.log("/pubsub API request pending");
       })
       .addCase(getPubSubStats.fulfilled, (state, action) => {
-        const { publishInformation, subscriptionInformation } = action.payload;
+        const { publishInformation, subscriptionInformation, connected } = action.payload;
         state.pub = publishInformation;
         state.sub = subscriptionInformation;
+
+        if (connected) {
+          state.connection.status = connected;
+          state.connection.message = "Connected";
+          state.connection.color = "green";
+        } else {
+          state.connection.message = "Connection lost";
+          state.connection.color = "red";
+        }
       })
-      .addCase(getPubSubStats.rejected, () => {
+      .addCase(getPubSubStats.rejected, (state) => {
+        state.connection.message = "Connection failed";
+        state.connection.color = "red";
         console.log("/pubsub API request rejected");
       })
   }
