@@ -1,6 +1,6 @@
 import "./ConnectionSettings.css";
 import { useDispatch, useSelector } from "react-redux";
-import { saveSettings} from "../../app/slices/brokerSlice";
+import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
 // import { genClientId } from "../../util";
 
 function ConnectionSettings() {
@@ -40,6 +40,10 @@ function ConnectionSettings() {
     // if (!settings.clean) settings.clean = false;
     dispatch(saveSettings(settings));
     alert('Settings saved!');
+  }
+
+  function connect() {
+    dispatch(connectBroker(settings));
   }
 
   return (
@@ -140,7 +144,7 @@ function ConnectionSettings() {
             <button type="submit" className="button-primary">
               Save settings
             </button>
-            <button type="button" className="button">
+            <button type="button" className="button" onClick={connect}>
               Connect to broker
             </button>
           </div>
