@@ -1,18 +1,14 @@
 import "./ConnectionSettings.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { saveSettings, connectBroker } from "../../app/slices/brokerSlice";
+import { saveSettings} from "../../app/slices/brokerSlice";
 // import { genClientId } from "../../util";
 
 function ConnectionSettings() {
 
-  // const connection = useSelector((state) => state.broker.connection);
-  // console.log(connection.status);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
- 
+  // const connection = useSelector((state) => state.broker.connection);
   const settings = useSelector(state => state.broker.settings);
-
+ 
   let hostUrl = '';
   if (settings.protocol && settings.host) {
     hostUrl = settings.protocol + '://' + settings.host;
@@ -40,12 +36,12 @@ function ConnectionSettings() {
         //   continue;
         // }
         settings[name] = value;
-      }
+    }
     // if (!settings.clean) settings.clean = false;
     dispatch(saveSettings(settings));
-    alert('Connection settings saved!');
-    navigate('/');
+    alert('Settings saved!');
   }
+
   return (
     <div className="container">
       <section id="Connect-settings">
@@ -133,9 +129,19 @@ function ConnectionSettings() {
               <input type="checkbox" id="clean-session" name="clean" checked/>
             </div>
           </div> */}
-          <div className="row">
-            <button type="submit" className="button-primary u-full-width">
-              Connect
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              columnGap: "1rem",
+              marginTop: "1rem",
+            }}
+          >
+            <button type="submit" className="button-primary">
+              Save settings
+            </button>
+            <button type="button" className="button">
+              Connect to broker
             </button>
           </div>
         </form>
