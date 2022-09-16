@@ -6,7 +6,7 @@ import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
 function ConnectionSettings() {
 
   const dispatch = useDispatch();
-  // const connection = useSelector((state) => state.broker.connection);
+  const connection = useSelector((state) => state.broker.connection);
   const settings = useSelector(state => state.broker.settings);
  
   let hostUrl = '';
@@ -149,6 +149,16 @@ function ConnectionSettings() {
             </button>
           </div>
         </form>
+        <div
+          style={{
+            margin: "0",
+            backgroundColor: connection.color,
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          <p>{connection.message}</p>
+        </div>
       </section>
     </div>
   );
