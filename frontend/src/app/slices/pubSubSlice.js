@@ -38,9 +38,18 @@ export const pubSubSlice = createSlice({
         console.log("/pubsub API request pending");
       })
       .addCase(getPubSubStats.fulfilled, (state, action) => {
-        const { publishInformation, subscriptionInformation } = action.payload;
+        const { publishInformation, subscriptionInformation, connected } = action.payload;
         state.pub = publishInformation;
         state.sub = subscriptionInformation;
+
+        if (connected) {
+          state.connection.status = connected;
+          state.connection.message = "Connected";
+          state.connection.color = "green";
+        } else {
+          state.connection.message = "Connection lost";
+          state.connection.color = "red";
+        }
       })
       .addCase(getPubSubStats.rejected, () => {
         console.log("/pubsub API request rejected");
