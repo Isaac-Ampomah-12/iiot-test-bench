@@ -14,6 +14,11 @@ export const pubSubSlice = createSlice({
   name: "pubsub",
   initialState: {
     settings: {},
+    connection: {
+      status: 'false',
+      message: 'No connection',
+      color: ''
+    },
     pub: {},
     sub: {}
   },
@@ -28,7 +33,7 @@ export const pubSubSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getPubSubStats.pending, () => {
-        console.log("/pubsub API request in pending state");
+        console.log("/pubsub API request pending");
       })
       .addCase(getPubSubStats.fulfilled, (state, action) => {
         const { publishInformation, subscriptionInformation } = action.payload;

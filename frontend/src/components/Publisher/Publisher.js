@@ -9,6 +9,8 @@ function Publisher() {
   const [msgSize, setMsgSize] = useState(1);
 
   const performance = useSelector(state => state.pubsub.pub);
+  // const pubCpu = performance.cpu + '%';
+  // const pubMemory = performance.memory + ' MB';
   const dispatch = useDispatch();
 
   useEffect(() => {

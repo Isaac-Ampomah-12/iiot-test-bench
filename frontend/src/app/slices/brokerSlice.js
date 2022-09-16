@@ -17,7 +17,7 @@ const brokerSlice = createSlice({
     settings: {},
     connection: { 
       status: false,
-      msg: 'Not connected',
+      message: '',
       color: ''
     }
   },
@@ -29,22 +29,22 @@ const brokerSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(connectBroker.pending, (state) => {
-        state.connection.msg = "Connecting...";
+        state.connection.message = "Connecting...";
         state.connection.color = "orange";
       })
       .addCase(connectBroker.fulfilled, (state, action) => {
         const status = action.payload;
         if (status.connectionStatus) {
           state.connection.status = true;
-          state.connection.msg = "Connected";
+          state.connection.message = "Connected";
           state.connection.color = "green";
         } else {
-          state.connection.msg = "Connection failed";
+          state.connection.message = "Connection lost";
           state.connection.color = "red";
         }
       })
       .addCase(connectBroker.rejected, (state) => {
-        state.connection.msg = "Connection rejected";
+        state.connection.message = "Connection rejected";
         state.connection.color = "red";
       });
   }

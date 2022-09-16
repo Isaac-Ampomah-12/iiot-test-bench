@@ -8,6 +8,8 @@ function Subscriber() {
 
   // const performance = useSelector(state => state.subscribe.stats.performance);
   const performance = useSelector(state => state.pubsub.sub);
+  // const subCpu = performance.cpu + '%';
+  // const subMemory = performance.memory + ' MB';
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -55,7 +57,7 @@ function Subscriber() {
               <span>
                 <strong>CPU:</strong>
               </span>
-              <span>{performance.cpu || 0}</span>
+              <span>{performance.cpu|| 0}</span>
             </div>
             <div className="info-item">
               <span>
