@@ -9,8 +9,8 @@ function Publisher() {
   const [msgSize, setMsgSize] = useState(1);
 
   const performance = useSelector(state => state.pubsub.pub);
-  const pubCpu = performance.cpu + '%';
-  const pubMemory = performance.memory + ' MB';
+  // const pubCpu = performance.cpu + '%';
+  // const pubMemory = performance.memory + ' MB';
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -59,13 +59,13 @@ function Publisher() {
               <span>
                 <strong>CPU:</strong>
               </span>
-              <span>{pubCpu || 0}</span>
+              <span>{performance.cpu || 0}</span>
             </div>
             <div className="info-item">
               <span>
                 <strong>Memory:</strong>
               </span>
-              <span>{pubMemory || 0}</span>
+              <span>{performance.memory || 0}</span>
             </div>
           </div>
         </div>
