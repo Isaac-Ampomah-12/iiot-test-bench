@@ -28,6 +28,11 @@ function PubSub() {
               ></textarea>
             </div>
           </div>
+          <div className="buttons">
+            <button type="submit" className="button-primary">
+              Send
+            </button>
+          </div>
         </div>
       </form>
     </section>
