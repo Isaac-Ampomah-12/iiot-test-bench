@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
 // import { genClientId } from "../../util";
 import ConnectSettings from "../../components/Broker/ConnectSettings/ConnectSettings";
+import PubSub from "../../components/PubSub/PubSub";
 
 function ConnectionSettings() {
 
@@ -56,6 +57,7 @@ function ConnectionSettings() {
         settings={settings}
         hostUrl={hostUrl}
       />
+      <PubSub />
     </div>
   );
 }
