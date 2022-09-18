@@ -2,7 +2,7 @@ import "./ConnectionSettings.css";
 import { useDispatch, useSelector } from "react-redux";
 import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
 // import { genClientId } from "../../util";
-import ConnectSettings from "../../components/Broker/ConnectSettings/ConnectSettings";
+import ConnectSettings from "../../components/ConnectSettings/ConnectSettings";
 import PubSub from "../../components/PubSub/PubSub";
 
 function ConnectionSettings() {
