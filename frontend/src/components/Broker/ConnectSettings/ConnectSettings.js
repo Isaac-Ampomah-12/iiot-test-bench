@@ -10,6 +10,12 @@ function ConnectSettings({
   return (
     <section id="Connect-settings">
       <h2>Connection Settings</h2>
+      <div
+        style={{backgroundColor: connection.color}}
+        id="message"
+      >
+        <p>{connection.message}</p>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="row">
           {/* <div className="six columns">
@@ -112,16 +118,6 @@ function ConnectSettings({
           <Link to="/">&#60;&#60; Back to dashboard</Link>
         </div>
       </form>
-      <div
-        style={{
-          margin: "0",
-          backgroundColor: connection.color,
-          color: "white",
-          textAlign: "center",
-        }}
-      >
-        <p>{connection.message}</p>
-      </div>
     </section>
   );
 }
