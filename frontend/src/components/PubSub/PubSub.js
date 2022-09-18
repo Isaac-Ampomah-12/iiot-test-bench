@@ -8,7 +8,7 @@ function PubSub() {
         <div className="column">
           <div className="row">
             <div>
-              <label for="publishTopic">Topic:</label>
+              <label htmlFor="publishTopic">Topic:</label>
               <input
                 type="text"
                 id="publishTopic"
@@ -19,7 +19,7 @@ function PubSub() {
           </div>
           <div className="row">
             <div>
-              <label for="publishMessage">Message:</label>
+              <label htmlFor="publishMessage">Message:</label>
               <textarea
                 id="publishMessage"
                 className="u-full-width"
@@ -33,6 +33,9 @@ function PubSub() {
               Send
             </button>
           </div>
+        </div>
+        <div className="column">
+          <output htmlFor="publishMessage">Publish Message</output>
         </div>
       </form>
     </section>
