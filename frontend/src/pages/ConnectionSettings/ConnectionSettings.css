@@ -3,11 +3,17 @@
   margin: auto;
   outline: 0.1rem solid lightblue;
 }
+#Connect-settings #message {
+  margin: 0;
+  color: white;
+  text-align: center
+}
 #Connect-settings h2 {
   font-size: xx-large;
   text-align: center;
   background-color: lightblue;
   padding: 0.5rem;
+  margin-bottom: 0;
 }
 #Connect-settings form {
   padding: 1.8rem 1.6rem;
