@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
 // import { genClientId } from "../../util";
+import PubSub from "../../components/PubSub/PubSub";
 
 function ConnectionSettings() {
 
@@ -164,6 +165,7 @@ function ConnectionSettings() {
           <p>{connection.message}</p>
         </div>
       </section>
+      <PubSub />
     </div>
   );
 }
