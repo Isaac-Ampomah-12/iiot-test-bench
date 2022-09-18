@@ -4,11 +4,12 @@
   outline: 0.1rem solid lightblue;
 }
 #Connect-settings h2 {
-  font-size: 3rem;
+  font-size: xx-large;
   text-align: center;
   background-color: lightblue;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 #Connect-settings form {
   padding: 1.8rem 1.6rem;
+  margin-bottom: 0;
 }
