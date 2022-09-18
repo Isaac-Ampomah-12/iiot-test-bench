@@ -1,9 +1,11 @@
+import "./PubSub.css";
+
 function PubSub() {
-  return(
-    <section>
-      <h2>Publish & Subscribe</h2>
+  return (
+    <section id="PubSub">
+      <h3>Publish & Subscribe</h3>
     </section>
-  )
+  );
 }
 
 export default PubSub;
