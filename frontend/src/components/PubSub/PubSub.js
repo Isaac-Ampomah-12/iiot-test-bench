@@ -17,6 +17,17 @@ function PubSub() {
               />
             </div>
           </div>
+          <div className="row">
+            <div>
+              <label for="publishMessage">Message:</label>
+              <textarea
+                id="publishMessage"
+                className="u-full-width"
+                name="publishMessage"
+                placeholder="Enter message here"
+              ></textarea>
+            </div>
+          </div>
         </div>
       </form>
     </section>
