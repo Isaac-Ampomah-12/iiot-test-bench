@@ -16,7 +16,7 @@ function ConnectionSettings() {
     hostUrl = settings.protocol + '://' + settings.host;
   }
 
-  function handleSubmit (e) {
+  function handleSave (e) {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
@@ -44,7 +44,7 @@ function ConnectionSettings() {
     alert('Settings saved!');
   }
 
-  function connect() {
+  function getConnect() {
     if (Object.keys(settings).length === 0) {
       alert('No connection settings');
     } else {
@@ -55,8 +55,8 @@ function ConnectionSettings() {
   return (
     <div className="container">
       <ConnectSettings
-        handleSubmit={handleSubmit}
-        connect={connect}
+        handleSave={handleSave}
+        getConnect={getConnect}
         connection={connection}
         settings={settings}
         hostUrl={hostUrl}
