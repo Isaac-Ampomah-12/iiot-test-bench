@@ -10,7 +10,7 @@ function ConnectionSettings() {
   const dispatch = useDispatch();
   const connection = useSelector((state) => state.broker.connection);
   const settings = useSelector(state => state.broker.settings);
- 
+
   let hostUrl = '';
   if (settings.protocol && settings.host) {
     hostUrl = settings.protocol + '://' + settings.host;
@@ -45,7 +45,11 @@ function ConnectionSettings() {
   }
 
   function connect() {
-    dispatch(connectBroker(settings));
+    if (Object.keys(settings).length === 0) {
+      alert('No connection settings');
+    } else {
+      dispatch(connectBroker(settings));
+    }
   }
 
   return (
