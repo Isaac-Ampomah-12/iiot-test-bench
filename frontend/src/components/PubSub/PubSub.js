@@ -3,7 +3,7 @@ import "./PubSub.css";
 function PubSub({ handlePubSubTest, test, isSending}) {
   return (
     <section id="PubSub">
-      <h2>Publish & Subscribe</h2>
+      <h2>Publish & Subscribe Test</h2>
       <form onSubmit={handlePubSubTest}>
         <div className="column">
           <div className="row">
