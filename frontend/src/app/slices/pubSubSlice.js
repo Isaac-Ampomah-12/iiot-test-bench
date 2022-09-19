@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { pubSubStatsAPI } from "../actions/pubSubActions";
+import { pubSubStatsAPI, pubSubTestAPI } from "../actions/pubSubActions";
 
 export const getPubSubStats = createAsyncThunk(
   "pubsub/getPubSubStats",
@@ -10,6 +10,14 @@ export const getPubSubStats = createAsyncThunk(
   }
 );
 
+export const sendPubSubTest = createAsyncThunk(
+  "pubsub/sendPubSubTest",
+  async (publish, thunkAPI) => {
+    const response = await pubSubTestAPI(publish);
+    const jsonResponse = await response.json();
+    return jsonResponse;
+  }
+)
 export const pubSubSlice = createSlice({
   name: "pubsub",
   initialState: {
@@ -20,7 +28,7 @@ export const pubSubSlice = createSlice({
       color: ''
     },
     pub: {},
-    sub: {}
+    sub: {},
   },
   reducers: {
     setSettings(state, action) {
@@ -55,7 +63,7 @@ export const pubSubSlice = createSlice({
         state.connection.message = "Connection failed";
         state.connection.color = "red";
         console.log("/pubsub API request rejected");
-      })
+      });
   }
 });
 
