@@ -65,7 +65,8 @@ function ConnectionSettings() {
       const [name, value] = entry;
       publish[name] = value;
     }
-    dispatch(sendPubSubTest(publish));
+    setIsSending(true);
+    dispatch(sendPubSubTest(publish)).then(() => setIsSending(false));
   }
 
   return (
