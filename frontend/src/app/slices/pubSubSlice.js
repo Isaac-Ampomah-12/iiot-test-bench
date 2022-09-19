@@ -64,6 +64,13 @@ export const pubSubSlice = createSlice({
         state.connection.color = "red";
         console.log("/pubsub API request rejected");
       });
+    builder
+      .addCase(sendPubSubTest.fulfilled, (state, action) => {
+        const { topic, message, connected } = action.payload;
+        if (connected) {
+          state.test = { topic, message, connected };
+        }
+      });
   }
 });
 
