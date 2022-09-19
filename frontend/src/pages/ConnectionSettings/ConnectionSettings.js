@@ -1,5 +1,6 @@
 import "./ConnectionSettings.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
 import { sendPubSubTest } from "../../app/slices/pubSubSlice";
 // import { genClientId } from "../../util";
@@ -11,6 +12,7 @@ function ConnectionSettings() {
   const dispatch = useDispatch();
   const connection = useSelector((state) => state.broker.connection);
   const settings = useSelector(state => state.broker.settings);
+  const [isSending, setIsSending] = useState(false);
 
   let hostUrl = '';
   if (settings.protocol && settings.host) {
@@ -76,6 +78,7 @@ function ConnectionSettings() {
       />
       <PubSub 
         handlePubSubTest={handlePubSubTest}
+        isSending={isSending}
       />
     </div>
   );
