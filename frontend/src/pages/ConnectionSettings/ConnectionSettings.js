@@ -12,6 +12,7 @@ function ConnectionSettings() {
   const dispatch = useDispatch();
   const connection = useSelector((state) => state.broker.connection);
   const settings = useSelector(state => state.broker.settings);
+  const test = useSelector((state) => state.pubsub.test);
   const [isSending, setIsSending] = useState(false);
 
   let hostUrl = '';
@@ -79,6 +80,7 @@ function ConnectionSettings() {
       <PubSub 
         handlePubSubTest={handlePubSubTest}
         isSending={isSending}
+        test={test}
       />
     </div>
   );
