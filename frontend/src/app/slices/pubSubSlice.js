@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { pubSubStatsAPI } from "../actions/pubSubActions";
+import { pubSubStatsAPI, pubSubTestAPI } from "../actions/pubSubActions";
 
 export const getPubSubStats = createAsyncThunk(
   "pubsub/getPubSubStats",
@@ -10,17 +10,26 @@ export const getPubSubStats = createAsyncThunk(
   }
 );
 
+export const sendPubSubTest = createAsyncThunk(
+  "pubsub/sendPubSubTest",
+  async (publish, thunkAPI) => {
+    const response = await pubSubTestAPI(publish);
+    const jsonResponse = await response.json();
+    return jsonResponse;
+  }
+)
 export const pubSubSlice = createSlice({
   name: "pubsub",
   initialState: {
     settings: {},
     connection: {
       status: 'false',
-      message: 'No connection',
+      message: '',
       color: ''
     },
     pub: {},
-    sub: {}
+    sub: {},
+    test: {}
   },
   reducers: {
     setSettings(state, action) {
@@ -33,7 +42,7 @@ export const pubSubSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getPubSubStats.pending, (state) => {
-        state.connection.message = "Connecting...";
+        state.connection.message = "Testing started...";
         state.connection.color = "orange";
         console.log("/pubsub API request pending");
       })
@@ -44,18 +53,31 @@ export const pubSubSlice = createSlice({
 
         if (connected) {
           state.connection.status = connected;
-          state.connection.message = "Connected";
+          state.connection.message = "Testing completed";
           state.connection.color = "green";
         } else {
-          state.connection.message = "Connection lost";
+          state.connection.message = "Testing failed";
           state.connection.color = "red";
         }
       })
       .addCase(getPubSubStats.rejected, (state) => {
-        state.connection.message = "Connection failed";
+        state.connection.message = "Network Error";
         state.connection.color = "red";
         console.log("/pubsub API request rejected");
+      });
+    builder
+      .addCase(sendPubSubTest.pending, () => {
+        console.log("/test/subpub request pending");
       })
+      .addCase(sendPubSubTest.fulfilled, (state, action) => {
+        const { topic, message, connected } = action.payload;
+        if (connected) {
+          state.test = { topic, message, connected };
+        }
+      })
+      .addCase(sendPubSubTest.rejected, () => {
+        console.log("/test/subpub request rejected");
+      });
   }
 });
 

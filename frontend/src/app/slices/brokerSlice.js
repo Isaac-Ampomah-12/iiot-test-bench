@@ -39,12 +39,12 @@ const brokerSlice = createSlice({
           state.connection.message = "Connected";
           state.connection.color = "green";
         } else {
-          state.connection.message = "Connection lost";
+          state.connection.message = "Connection failed";
           state.connection.color = "red";
         }
       })
       .addCase(connectBroker.rejected, (state) => {
-        state.connection.message = "Connection rejected";
+        state.connection.message = "Network Error";
         state.connection.color = "red";
       });
   }

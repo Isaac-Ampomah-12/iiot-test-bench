@@ -1,6 +1,8 @@
 import "./ConnectionSettings.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
+import { sendPubSubTest } from "../../app/slices/pubSubSlice";
 // import { genClientId } from "../../util";
 import ConnectSettings from "../../components/ConnectSettings/ConnectSettings";
 import PubSub from "../../components/PubSub/PubSub";
@@ -10,13 +12,15 @@ function ConnectionSettings() {
   const dispatch = useDispatch();
   const connection = useSelector((state) => state.broker.connection);
   const settings = useSelector(state => state.broker.settings);
- 
+  const test = useSelector((state) => state.pubsub.test);
+  const [isSending, setIsSending] = useState(false);
+
   let hostUrl = '';
   if (settings.protocol && settings.host) {
     hostUrl = settings.protocol + '://' + settings.host;
   }
 
-  function handleSubmit (e) {
+  function handleSave (e) {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
@@ -44,20 +48,41 @@ function ConnectionSettings() {
     alert('Settings saved!');
   }
 
-  function connect() {
-    dispatch(connectBroker(settings));
+  function getConnect() {
+    if (Object.keys(settings).length === 0) {
+      alert('No connection settings');
+    } else {
+      dispatch(connectBroker(settings));
+    }
+  }
+
+  function handlePubSubTest(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const publish = {};
+    for (const entry of formData.entries()) {
+      const [name, value] = entry;
+      publish[name] = value;
+    }
+    setIsSending(true);
+    dispatch(sendPubSubTest(publish)).then(() => setIsSending(false));
   }
 
   return (
     <div className="container">
       <ConnectSettings
-        handleSubmit={handleSubmit}
-        connect={connect}
+        handleSave={handleSave}
+        getConnect={getConnect}
         connection={connection}
         settings={settings}
         hostUrl={hostUrl}
       />
-      <PubSub />
+      <PubSub 
+        handlePubSubTest={handlePubSubTest}
+        isSending={isSending}
+        test={test}
+      />
     </div>
   );
 }

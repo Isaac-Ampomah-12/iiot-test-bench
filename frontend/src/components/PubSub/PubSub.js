@@ -1,10 +1,10 @@
 import "./PubSub.css";
 
-function PubSub() {
+function PubSub({ handlePubSubTest, test, isSending}) {
   return (
     <section id="PubSub">
-      <h2>Publish & Subscribe</h2>
-      <form>
+      <h2>Publish & Subscribe Test</h2>
+      <form onSubmit={handlePubSubTest}>
         <div className="column">
           <div className="row">
             <div>
@@ -14,6 +14,7 @@ function PubSub() {
                 id="publishTopic"
                 className="u-full-width"
                 name="publishTopic"
+                required
               />
             </div>
           </div>
@@ -25,17 +26,18 @@ function PubSub() {
                 className="u-full-width"
                 name="publishMessage"
                 placeholder="Enter message here"
+                required
               ></textarea>
             </div>
           </div>
           <div className="buttons">
             <button type="submit" className="button-primary">
-              Send
+              {isSending ? 'Sending' : 'Send'}
             </button>
           </div>
         </div>
-        <div className="column">
-          <output htmlFor="publishMessage">Publish Message</output>
+        <div className="column" id="message">
+          <p>{test.message || 'No message'}</p>
         </div>
       </form>
     </section>

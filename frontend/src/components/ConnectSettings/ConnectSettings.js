@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
 function ConnectSettings({
-  handleSubmit,
-  connect,
+  handleSave,
+  getConnect,
   connection,
   settings,
   hostUrl,
@@ -16,7 +16,7 @@ function ConnectSettings({
       >
         <p>{connection.message}</p>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSave}>
         <div className="row">
           {/* <div className="six columns">
               <label htmlFor="name">Client Name:</label>
@@ -110,7 +110,7 @@ function ConnectSettings({
           <button type="submit" className="button-primary">
             Save settings
           </button>
-          <button type="button" className="button" onClick={connect}>
+          <button type="button" className="button" onClick={getConnect}>
             Connect to broker
           </button>
         </div>
