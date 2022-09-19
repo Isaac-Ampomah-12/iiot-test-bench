@@ -29,6 +29,7 @@ export const pubSubSlice = createSlice({
     },
     pub: {},
     sub: {},
+    test: {}
   },
   reducers: {
     setSettings(state, action) {
@@ -66,7 +67,7 @@ export const pubSubSlice = createSlice({
       });
     builder
       .addCase(sendPubSubTest.pending, () => {
-          console.log('/test/subpub request pending');
+        console.log("/test/subpub request pending");
       })
       .addCase(sendPubSubTest.fulfilled, (state, action) => {
         const { topic, message, connected } = action.payload;
@@ -74,6 +75,9 @@ export const pubSubSlice = createSlice({
           state.test = { topic, message, connected };
         }
       })
+      .addCase(sendPubSubTest.rejected, () => {
+        console.log("/test/subpub request rejected");
+      });
   }
 });
 
