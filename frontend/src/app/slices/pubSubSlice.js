@@ -65,12 +65,15 @@ export const pubSubSlice = createSlice({
         console.log("/pubsub API request rejected");
       });
     builder
+      .addCase(sendPubSubTest.pending, () => {
+          console.log('/test/subpub request pending');
+      })
       .addCase(sendPubSubTest.fulfilled, (state, action) => {
         const { topic, message, connected } = action.payload;
         if (connected) {
           state.test = { topic, message, connected };
         }
-      });
+      })
   }
 });
 
