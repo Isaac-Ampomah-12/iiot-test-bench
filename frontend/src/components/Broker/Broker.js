@@ -11,7 +11,8 @@ function Broker() {
   const dispatch = useDispatch();
   const brokerSettings = useSelector(state => state.broker.settings);
   const pubSubSettings = useSelector(state => state.pubsub.settings);
-  const connection = useSelector(state => state.pubsub.connection);
+  const brokerConnect = useSelector(state => state.broker.connection);
+  const pubsubConnect = useSelector(state => state.pubsub.connection);
 
   function start() {
     if (Object.keys(brokerSettings).length !== 0) {
@@ -44,7 +45,9 @@ function Broker() {
               <span>
                 <strong>Status:</strong>
               </span>
-              <span style={{ color: connection.color }}>{connection.message}</span>
+              <span style={{ color: brokerConnect.color }}>
+                {brokerConnect.message || "No connection"}
+              </span>
             </div>
           </div>
         </div>
@@ -100,23 +103,11 @@ function Broker() {
           </div>
         </div>
       </div>
-      <div className="buttons">
-        <button
-          type="button"
-          className="button-primary"
-          onClick={() => start()}
-        >
-          Start
-        </button>
-        {/* {connection.status ? (
-          <button
-            type="button"
-            style={{ backgroundColor: "#F70D1A", color: "white" }}
-            onClick={() => stop()}
-          >
-            Stop
-          </button>
-        ) : (
+      <div className="row bottom">
+        <span style={{ color: pubsubConnect.color }}>
+          {pubsubConnect.message}
+        </span>
+        <div className="buttons">
           <button
             type="button"
             className="button-primary"
@@ -124,10 +115,10 @@ function Broker() {
           >
             Start
           </button>
-        )} */}
-        <Link to="/settings" className="button">
-          Settings
-        </Link>
+          <Link to="/settings" className="button">
+            Settings
+          </Link>
+        </div>
       </div>
     </section>
   );
