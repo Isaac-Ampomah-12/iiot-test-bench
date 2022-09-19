@@ -1,6 +1,7 @@
 import "./ConnectionSettings.css";
 import { useDispatch, useSelector } from "react-redux";
 import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
+import { sendPubSubTest } from "../../app/slices/pubSubSlice";
 // import { genClientId } from "../../util";
 import ConnectSettings from "../../components/ConnectSettings/ConnectSettings";
 import PubSub from "../../components/PubSub/PubSub";
@@ -52,6 +53,18 @@ function ConnectionSettings() {
     }
   }
 
+  function handlePubSubTest(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const publish = {};
+    for (const entry of formData.entries()) {
+      const [name, value] = entry;
+      publish[name] = value;
+    }
+    dispatch(sendPubSubTest(publish));
+  }
+
   return (
     <div className="container">
       <ConnectSettings
@@ -61,7 +74,9 @@ function ConnectionSettings() {
         settings={settings}
         hostUrl={hostUrl}
       />
-      <PubSub />
+      <PubSub 
+        handlePubSubTest={handlePubSubTest}
+      />
     </div>
   );
 }
