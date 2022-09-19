@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function ConnectSettings({
   handleSave,
-  connect,
+  getConnect,
   connection,
   settings,
   hostUrl,
@@ -110,7 +110,7 @@ function ConnectSettings({
           <button type="submit" className="button-primary">
             Save settings
           </button>
-          <button type="button" className="button" onClick={connect}>
+          <button type="button" className="button" onClick={getConnect}>
             Connect to broker
           </button>
         </div>
