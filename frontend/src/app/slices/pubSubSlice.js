@@ -56,7 +56,7 @@ export const pubSubSlice = createSlice({
           state.connection.message = "Testing completed";
           state.connection.color = "green";
         } else {
-          state.connection.message = "Server Error";
+          state.connection.message = "Testing failed";
           state.connection.color = "red";
         }
       })
