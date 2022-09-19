@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 function ConnectSettings({
-  handleSubmit,
+  handleSave,
   connect,
   connection,
   settings,
@@ -16,7 +16,7 @@ function ConnectSettings({
       >
         <p>{connection.message}</p>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSave}>
         <div className="row">
           {/* <div className="six columns">
               <label htmlFor="name">Client Name:</label>
