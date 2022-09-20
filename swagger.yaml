@@ -79,3 +79,32 @@ paths:
                         "memory": "125 MB"
                       }
                     }
+  /test/subpub:
+    summary: Test broker publishing and subscription
+    post:
+      summary: Publish message to a topic and subscribe to same topic
+      description: ''
+      operationId: ''
+      responses:
+        '200':
+          description: Successful Publish and Subscription Test
+          content:
+            application/json:
+              examples:
+                SubscriptionMessage:
+                  value: |-
+                    {
+                      "connected": true,
+                      "topic": "index",
+                      "message": "Hello World"
+                    }
+        default:
+          description: Default error sample response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                publishTopic: index
+                publishMessage: Hello World
