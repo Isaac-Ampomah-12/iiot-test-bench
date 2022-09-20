@@ -37,6 +37,8 @@ networks, persistence, security and compression of IoT data. This project seeks 
   * Cors - version 2.8.5
   * Mqtt - version 4.3.7
   * Random-Words - version 1.2.0
+  * loadavg-windows - version 1.1.1
+  * node-os-utils - version 1.3.7
 
 ### Features
 
