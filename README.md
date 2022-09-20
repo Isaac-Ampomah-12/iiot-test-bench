@@ -69,17 +69,17 @@ Run this command in a terminal (e.g. Git bash recommended for Windows OS) in bot
 
 Start the application after dependencies have being installed with:
 `npm start`
-in both frontend and backend folder.
+in both frontend and server folder.
 
 ### Usage
 
 1. Go to the connection settings page by clicking on settings on the broker section.
 2. Fill the settings form with broker connection credentials.
-3. Click connect button to establish connection with broker. You'll be redirect to the dashboard to check connection status.
-4. If connection is successful, status will be 'Connected' else try reconnecting again.
-5. At the publisher and subscriber section, you set the number of publishers and subscribers, topic levels,  
+3. Click connect button to establish connection with broker. If connection is successful, you'll be notified with 'Connected' message".
+4. Run a publish and subscription test on the connected by publishing a message to a topic on a form below the connection settings or go to dashboard to test broker performance by clicking, "Back to dashboard" link on connection settings form.
+5. On the dashboard page, at the publisher and subscriber section, you set the number of publishers and subscribers, topic levels,  
 message size and publish interval to test the broker performance.
-6. Click the start button multiple times upon changing the above inputs to view broker performance alongside its performance on publishing and subscription.
+6. Click the start button upon changing the above inputs to view broker performance alongside its performance on publishing and subscription.
 
 ### Contributors
 
