@@ -54,6 +54,10 @@ networks, persistence, security and compression of IoT data. This project seeks 
 
 ![Connection Settings](./frontend/src/screenshot/broker-settings.png)
 
+### Publish & Subscribe Test
+
+![Publish and Subscribe Test](./frontend/src/screenshot/broker-pubsub-test.png);
+
 ### Setup
 
 Run this command in a terminal (e.g. Git bash recommended for Windows OS) in both frontend and server folder to install dependencies:  
