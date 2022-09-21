@@ -1,9 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSettings } from "../../app/slices/pubSubSlice";
 
 function Subscriber() {
-  const [subNumber, setSubNumber] = useState(0);
-  const [subTopicLevel, setTopicLevel] = useState(0);
+  const [subNumber, setSubNumber] = useState(1);
+  const [subTopicLevel, setTopicLevel] = useState(1);
 
+  // const performance = useSelector(state => state.subscribe.stats.performance);
+  const performance = useSelector(state => state.pubsub.sub);
+  // const subCpu = performance.cpu + '%';
+  // const subMemory = performance.memory + ' MB';
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const settings = {
+      numberOfSubscribers: subNumber,
+      subscriptionTopicLevel: subTopicLevel,
+    };
+    dispatch(setSettings(settings));
+  }, [subNumber, subTopicLevel, dispatch]);
+  
   return (
     <section>
       <h2>Subscriber</h2>
@@ -15,6 +31,7 @@ function Subscriber() {
               type="number"
               id="no-of-sub"
               className="u-full-width"
+              min="1"
               value={subNumber}
               onChange={({ target }) => setSubNumber(target.value)}
             />
@@ -27,6 +44,7 @@ function Subscriber() {
               type="number"
               id="topic-levels"
               className="u-full-width"
+              min="1"
               value={subTopicLevel}
               onChange={({ target }) => setTopicLevel(target.value)}
             />
@@ -39,13 +57,13 @@ function Subscriber() {
               <span>
                 <strong>CPU:</strong>
               </span>
-              <span>0</span>
+              <span>{performance.cpu|| 0}</span>
             </div>
             <div className="info-item">
               <span>
                 <strong>Memory:</strong>
               </span>
-              <span>0</span>
+              <span>{performance.memory || 0}</span>
             </div>
           </div>
         </div>

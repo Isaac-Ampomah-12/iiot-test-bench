@@ -1,94 +1,88 @@
 import "./ConnectionSettings.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { saveSettings, connectBroker} from "../../app/slices/brokerSlice";
+import { sendPubSubTest } from "../../app/slices/pubSubSlice";
+// import { genClientId } from "../../util";
+import ConnectSettings from "../../components/ConnectSettings/ConnectSettings";
+import PubSub from "../../components/PubSub/PubSub";
 
 function ConnectionSettings() {
+
+  const dispatch = useDispatch();
+  const connection = useSelector((state) => state.broker.connection);
+  const settings = useSelector(state => state.broker.settings);
+  const test = useSelector((state) => state.pubsub.test);
+  const [isSending, setIsSending] = useState(false);
+
+  let hostUrl = '';
+  if (settings.protocol && settings.host) {
+    hostUrl = settings.protocol + '://' + settings.host;
+  }
+
+  function handleSave (e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const settings = {};
+    for (const entry of formData.entries()) {
+      const [name, value] = entry;
+      if (name === "host-address") {
+        const hostAddress = value.split("://");
+        settings.protocol = hostAddress[0];
+        settings.host = hostAddress[1];
+        continue;
+      }
+      if (name === 'port' && value !=='') {
+        settings.port = Number(value);
+        continue;
+      }
+      // if (name === "clean") {
+        //   value === "on" && (settings[name] = true);
+        //   continue;
+        // }
+        settings[name] = value;
+    }
+    // if (!settings.clean) settings.clean = false;
+    dispatch(saveSettings(settings));
+    alert('Settings saved!');
+  }
+
+  function getConnect() {
+    if (Object.keys(settings).length === 0) {
+      alert('No connection settings');
+    } else {
+      dispatch(connectBroker(settings));
+    }
+  }
+
+  function handlePubSubTest(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const publish = {};
+    for (const entry of formData.entries()) {
+      const [name, value] = entry;
+      publish[name] = value;
+    }
+    setIsSending(true);
+    dispatch(sendPubSubTest(publish)).then(() => setIsSending(false));
+  }
+
   return (
     <div className="container">
-      <section id="Connect-settings">
-        <h2>Connection settings</h2>
-        <form>
-          <div className="row">
-            <div className="six columns">
-              <label htmlFor="name">Client Name:</label>
-              <input
-                type="text"
-                id="client-name"
-                className="u-full-width"
-                name="clientName"
-                placeholder="Enter name for client"
-                required
-              />
-            </div>
-            <div className="six columns">
-              <label htmlFor="client-id">Client ID:</label>
-              <input
-                type="text"
-                id="client-id"
-                className="u-full-width"
-                name="clientId"
-                value="testId-XXXXXXXXXXXXXXXXXXXX"
-                required
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="ten columns">
-              <label htmlFor="host">Host Address:</label>
-              <input
-                type="url"
-                id="host-address"
-                className="u-full-width"
-                name="host-address"
-                placeholder="E.g. mqtt://broker.hivemq.com"
-                required
-              />
-            </div>
-            <div className="two columns">
-              <label htmlFor="port">Port:</label>
-              <input
-                type="number"
-                id="port"
-                className="u-full-width"
-                min="0"
-                defaultValue="1883"
-                required
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="six columns">
-              <label htmlFor="username">Username:</label>
-              <input
-                type="text"
-                id="username"
-                className="u-full-width"
-                name="username"
-                placeholder="Enter connection username"
-              />
-            </div>
-            <div className="six columns">
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                className="u-full-width"
-                name="password"
-                placeholder="Enter connection password"
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="three columns">
-              <label htmlFor="clean-session">Clean Session: </label>
-              <input type="checkbox" id="clean-session" name="clean" />
-            </div>
-          </div>
-          <div className="row">
-            <button type="submit" className="button-primary u-full-width">
-              Save
-            </button>
-          </div>
-        </form>
-      </section>
+      <ConnectSettings
+        handleSave={handleSave}
+        getConnect={getConnect}
+        connection={connection}
+        settings={settings}
+        hostUrl={hostUrl}
+      />
+      <PubSub 
+        handlePubSubTest={handlePubSubTest}
+        isSending={isSending}
+        test={test}
+      />
     </div>
   );
 }

@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import connectionSlice from "./connectionSlice";
+import brokerSlice from "./slices/brokerSlice";
+import publishSlice from "./slices/publishSlice";
+import subscribeSlice from "./slices/subscribeSlice";
+import pubSubSlice from "./slices/pubSubSlice";
 
 export const store = configureStore({
   reducer: {
-    connection: connectionSlice,
+    broker: brokerSlice,
+    pubsub: pubSubSlice,
+    publish: publishSlice,
+    subscribe: subscribeSlice
   },
 });

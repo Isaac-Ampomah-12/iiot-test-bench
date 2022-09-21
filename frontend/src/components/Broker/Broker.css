@@ -1,0 +1,10 @@
+#Broker .row.bottom {
+  padding: 0 1.6rem !important;
+}
+#Broker .buttons {
+  display: inline;
+  float: right;
+}
+#Broker .buttons > button {
+  margin-right: 1rem;
+}

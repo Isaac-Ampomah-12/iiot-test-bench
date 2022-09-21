@@ -1,0 +1,110 @@
+openapi: 3.0.3
+info:
+  title: IIoT Test Bench
+  version: 1.0.11
+  description: Test performance of an IIoT Broker
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://iiot-test-bench-backend.herokuapp.com
+paths:
+  /broker/connect:
+    summary: Establish connection to mqtt broker
+    post:
+      summary: Set broker connection settings
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                host: f6a5b7010eb4472aa8657f1931c2f8f7.s1.eu.hivemq.cloud
+                port: 8883
+                protocol: mqtts
+                username: Isaac Ampomah
+                password: 1password@most
+      responses:
+        '200':
+          description: Successful broker connection
+          content:
+            application/json:
+              examples:
+                connectionStatus:
+                  value: |-
+                    {
+                      "connectionStatus": true
+                    }
+  /pubsub:
+    summary: Get broker publishing and subscription performance metrics
+    post:
+      summary: >-
+        Set number of publishers and subscribers, topic levels, message size and
+        intervals
+      description: ''
+      operationId: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              numberOfPublishers: 7
+              publishTopicLevel: 4
+              numberOfSubscribers: 5
+              subscriptionTopicLevel: 5
+              messageSize: 70
+              publishInterval: 1000
+      responses:
+        '200':
+          description: Publishing and subscription cpu and memory usage
+          content:
+            application/json:
+              examples:
+                cpu and memory usage:
+                  value: |-
+                    {
+                      "connected": true,
+                      "subscriptionInformation": {
+                        "cpu": "0%",
+                        "memory": "0 MB"
+                      },
+                      "publishInformation": {
+                        "cpu": "7%",
+                        "memory": "125 MB"
+                      }
+                    }
+  /test/subpub:
+    summary: Test broker publishing and subscription
+    post:
+      summary: Publish message to a topic and subscribe to same topic
+      description: ''
+      operationId: ''
+      responses:
+        '200':
+          description: Successful Publish and Subscription Test
+          content:
+            application/json:
+              examples:
+                SubscriptionMessage:
+                  value: |-
+                    {
+                      "connected": true,
+                      "topic": "index",
+                      "message": "Hello World"
+                    }
+        default:
+          description: Default error sample response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                publishTopic: index
+                publishMessage: Hello World
