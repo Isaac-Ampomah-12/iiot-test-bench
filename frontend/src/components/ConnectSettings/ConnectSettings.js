@@ -99,18 +99,11 @@ function ConnectSettings({
               <input type="checkbox" id="clean-session" name="clean" checked/>
             </div>
           </div> */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            columnGap: "1rem",
-            marginTop: "1rem",
-          }}
-        >
-          <button type="submit" className="button-primary">
+        <div className="row">
+          <button type="submit" className="button-primary six columns">
             Save settings
           </button>
-          <button type="button" className="button" onClick={getConnect}>
+          <button type="button" className="button six columns" onClick={getConnect}>
             Connect to broker
           </button>
         </div>

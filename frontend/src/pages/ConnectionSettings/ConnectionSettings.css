@@ -1,5 +1,5 @@
 #Connect-settings {
-  width: 65rem;
+  /* width: 65rem; */
   margin: auto;
   outline: 0.1rem solid lightblue;
 }
@@ -9,7 +9,7 @@
   text-align: center
 }
 #Connect-settings h2 {
-  font-size: xx-large;
+  font-size: 1.8rem;
   text-align: center;
   background-color: lightblue;
   padding: 0.5rem;
