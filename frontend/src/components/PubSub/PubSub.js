@@ -5,10 +5,10 @@ function PubSub({ handlePubSubTest, test, isSending}) {
     <section id="PubSub">
       <h2>Publish & Subscribe Test</h2>
       <form onSubmit={handlePubSubTest}>
-        <div className="column">
-          <div className="row">
+        <div className="row">
+          <div>
             <div>
-              <label htmlFor="publishTopic">Topic:</label>
+              <label htmlFor="publishTopic">Publish Topic:</label>
               <input
                 type="text"
                 id="publishTopic"
@@ -17,10 +17,8 @@ function PubSub({ handlePubSubTest, test, isSending}) {
                 required
               />
             </div>
-          </div>
-          <div className="row">
             <div>
-              <label htmlFor="publishMessage">Message:</label>
+              <label htmlFor="publishMessage">Publish Message:</label>
               <textarea
                 id="publishMessage"
                 className="u-full-width"
@@ -29,15 +27,18 @@ function PubSub({ handlePubSubTest, test, isSending}) {
                 required
               ></textarea>
             </div>
+            <div className="buttons">
+              <button type="submit" className="button-primary column">
+                {isSending ? "Sending..." : "Send"}
+              </button>
+            </div>
           </div>
-          <div className="buttons">
-            <button type="submit" className="button-primary">
-              {isSending ? 'Sending' : 'Send'}
-            </button>
+          <div>
+            <label>Subscribe Message:</label>
+            <div id="message">
+              <p>{test.message || "No message"}</p>
+            </div>
           </div>
-        </div>
-        <div className="column" id="message">
-          <p>{test.message || 'No message'}</p>
         </div>
       </form>
     </section>
