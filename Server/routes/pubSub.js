@@ -95,8 +95,6 @@ pubSubRouter.post('', (req, res) => {
 
                 let startTime = process.hrtime();
                 let startUsage = process.cpuUsage();
-                
-                // console.log("user: " + startUsage.user, "system: " + startUsage.system)
 
                 let now = Date.now();
                 while(Date.now() - now < 500){
@@ -108,40 +106,15 @@ pubSubRouter.post('', (req, res) => {
 
                 let curSubMem = process.memoryUsage().heapUsed / 1024 / 1024;
 
-                // console.log("user: " + elapUsage.user, "system: " + elapUsage.system);
-                let elapTimeMs = secNSec2ms(elapTime);
-                let elapUserMs = secNSec2ms(elapUsage.user);
-                let elapSystMs = secNSec2ms(elapUsage.system);
+                let elapTimeMs = operations.Sec2ms(elapTime);
+                let elapUserMs = operations.Sec2ms(elapUsage.user);
+                let elapSystMs = operations.Sec2ms(elapUsage.system);
 
                 subTotalElapTimeMs += elapTimeMs;
                 subTotalElapUserMs += elapUserMs;
                 subTotalElapSystMs += elapSystMs;
 
                 
-                // totalCpuPercent += cpuPercent;
-
-                // console.log("elapsed time ms " , elapTimeMs);
-                // console.log("elapsed user ms " , elapUserMs);
-                // console.log("elapsed system ms " , elapSystMs);
-                
-
-                function secNSec2ms (secNSec){
-                    if(Array.isArray(secNSec)){
-                        return secNSec[0] * 1000 + secNSec[1] / 1000000;
-                    }
-                    return secNSec / 1000;
-                }
-                
-                // get the amount of CPU used for subscribing to a topic
-                // let curSubCpu = (cpu.loadavgTime() / 2) * 10;
-
-                // get the amount of memory used for subscribing to a topic
-                
-
-                // store accumulated amount of CPU used for subscribing to the set of topics
-                // totalSubCpu += curSubCpu;
-
-                // store accumulated amount of memory used for subscribing to the set of topics
                 totalSubMemory += curSubMem;
             }        
         }
@@ -154,34 +127,30 @@ pubSubRouter.post('', (req, res) => {
                 // get topics from topicArray
                 let ptopic = topicArray[p];
 
+                // get the time and Cpu Usage before publishing
                 let startTime = process.hrtime();
                 let startUsage = process.cpuUsage();
 
-                
-                
+                // wait for wait for publishing to complete
                 let now = Date.now();
                 while(Date.now() - now < 500){
                     // publish message to topic
                     pubSubClient.publish(ptopic, message);
                 }
 
+                // get the time and cpu Usage 
                 let elapTime = process.hrtime(startTime);
                 let elapUsage = process.cpuUsage(startUsage);
 
-                let elapTimeMs = secNSec2ms(elapTime);
-                let elapUserMs = secNSec2ms(elapUsage.user);
-                let elapSystMs = secNSec2ms(elapUsage.system);
+                let elapTimeMs = operations.Sec2ms(elapTime);
+                let elapUserMs = operations.Sec2ms(elapUsage.user);
+                let elapSystMs = operations.Sec2ms(elapUsage.system);
 
                 pubTotalElapTimeMs += elapTimeMs;
                 pubTotalElapUserMs += elapUserMs;
                 pubTotalElapSystMs += elapSystMs;
 
-                function secNSec2ms (secNSec){
-                    if(Array.isArray(secNSec)){
-                        return secNSec[0] * 1000 + secNSec[1] / 1000000;
-                    }
-                    return secNSec / 1000;
-                }
+                
 
                 // get the amount of CPU used for publishing to a topic
                 let curPubCpu = (cpu.loadavgTime() / 2) * 10;
@@ -200,10 +169,6 @@ pubSubRouter.post('', (req, res) => {
 
                     // stops interval
                     clearInterval(pubLoop);
-
-                    // console.log("totalElapTimeMs "+ totalElapTimeMs);
-                    // console.log("totalElapUserMs "+ totalElapUserMs);
-                    // console.log("totalElapUserMs "+ totalElapSystMs);
 
                     let subCpuPercent = Math.round(100 * (subTotalElapUserMs + subTotalElapSystMs) / subTotalElapTimeMs);
                     console.log("cpu Percent " , subCpuPercent);
