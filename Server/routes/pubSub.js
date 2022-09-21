@@ -27,6 +27,14 @@ let publishInformation = {};
 
 let cpu = os.cpu;
 
+let subTotalElapTimeMs = 0;
+let subTotalElapUserMs = 0;
+let subTotalElapSystMs = 0;
+
+let pubTotalElapTimeMs = 0;
+let pubTotalElapUserMs = 0;
+let pubTotalElapSystMs = 0;
+
 pubSubRouter.post('', (req, res) => {
     let userValues = req.body;
 
@@ -41,6 +49,14 @@ pubSubRouter.post('', (req, res) => {
     // connect to broker
     let pubSubClient = mqtt.connect(pubSubOptions);
 
+    pubSubClient.on("error", (error) => {
+        // this variable will hold a false value 
+        result.connected = pubSubClient.connected;
+        // a false value will be sent to the front end
+        res.send(result);
+        pubSubClient.end();
+
+    });
     // this block will be called if connection to broker is successfull
     pubSubClient.on('connect', function () {
         // this will store boolean value of true
@@ -77,18 +93,28 @@ pubSubRouter.post('', (req, res) => {
             for (let s=0; s<userValues.numberOfSubscribers; s++){
                 let stopic = topicArray[s];
 
-                pubSubClient.subscribe(stopic);
+                let startTime = process.hrtime();
+                let startUsage = process.cpuUsage();
 
-                // get the amount of CPU used for subscribing to a topic
-                let curSubCpu = (cpu.loadavgTime() / 2) * 10;
+                let now = Date.now();
+                while(Date.now() - now < 500){
+                    pubSubClient.subscribe(stopic);
+                }
 
-                // get the amount of memory used for subscribing to a topic
+                let elapTime = process.hrtime(startTime);
+                let elapUsage = process.cpuUsage(startUsage);
+
                 let curSubMem = process.memoryUsage().heapUsed / 1024 / 1024;
 
-                // store accumulated amount of CPU used for subscribing to the set of topics
-                totalSubCpu += curSubCpu;
+                let elapTimeMs = operations.Sec2ms(elapTime);
+                let elapUserMs = operations.Sec2ms(elapUsage.user);
+                let elapSystMs = operations.Sec2ms(elapUsage.system);
 
-                // store accumulated amount of memory used for subscribing to the set of topics
+                subTotalElapTimeMs += elapTimeMs;
+                subTotalElapUserMs += elapUserMs;
+                subTotalElapSystMs += elapSystMs;
+
+                
                 totalSubMemory += curSubMem;
             }        
         }
@@ -101,9 +127,31 @@ pubSubRouter.post('', (req, res) => {
                 // get topics from topicArray
                 let ptopic = topicArray[p];
 
-                // publish message to topic
-                pubSubClient.publish(ptopic, message);
+                // get the time and Cpu Usage before publishing
+                let startTime = process.hrtime();
+                let startUsage = process.cpuUsage();
+
+                // wait for wait for publishing to complete
+                let now = Date.now();
+                while(Date.now() - now < 500){
+                    // publish message to topic
+                    pubSubClient.publish(ptopic, message);
+                }
+
+                // get the time and cpu Usage 
+                let elapTime = process.hrtime(startTime);
+                let elapUsage = process.cpuUsage(startUsage);
+
+                let elapTimeMs = operations.Sec2ms(elapTime);
+                let elapUserMs = operations.Sec2ms(elapUsage.user);
+                let elapSystMs = operations.Sec2ms(elapUsage.system);
+
+                pubTotalElapTimeMs += elapTimeMs;
+                pubTotalElapUserMs += elapUserMs;
+                pubTotalElapSystMs += elapSystMs;
+
                 
+
                 // get the amount of CPU used for publishing to a topic
                 let curPubCpu = (cpu.loadavgTime() / 2) * 10;
 
@@ -122,12 +170,24 @@ pubSubRouter.post('', (req, res) => {
                     // stops interval
                     clearInterval(pubLoop);
 
+                    let subCpuPercent = Math.round(100 * (subTotalElapUserMs + subTotalElapSystMs) / subTotalElapTimeMs);
+                    console.log("cpu Percent " , subCpuPercent);
+
+
+                    let pubCpuPercent = Math.round(100 * (pubTotalElapUserMs + pubTotalElapSystMs) / pubTotalElapTimeMs);
+                    console.log("cpu Percent " , pubCpuPercent);
+                    // console.log("Fin Sub " + totalCpuPercent / userValues.numberOfSubscribers);
+
                     // store total CPU and memory used for subscription into subscriptionInformation
-                    subscriptionInformation.cpu = Math.floor(totalSubCpu / userValues.numberOfSubscribers) + "%";
+                    // subscriptionInformation.cpu = Math.floor(totalSubCpu / userValues.numberOfSubscribers) + "%";
+                    subscriptionInformation.cpu = subCpuPercent + "%";
                     subscriptionInformation.memory = Math.floor(totalSubMemory) + " MB";
 
+
                     // store total CPU and memory used for publishing into publishInformation
-                    publishInformation.cpu = Math.floor(totalPubCpu / userValues.numberOfPublishers) + "%";
+                    // publishInformation.cpu = Math.floor(totalPubCpu / userValues.numberOfPublishers) + "%";
+                    publishInformation.cpu = pubCpuPercent + "%";
+
                     publishInformation.memory = Math.floor(totalPubMemory) + " MB";
 
                     // append subscriptionInformation and publishInformation objects to result object
@@ -139,6 +199,8 @@ pubSubRouter.post('', (req, res) => {
 
                     // send result object to front end
                     res.send(result);
+
+                    pubSubClient.end();
                 }
             }
                 
@@ -146,12 +208,8 @@ pubSubRouter.post('', (req, res) => {
         
     });
 
-    pubSubClient.on("error", (error) => {
-        // this variable will hold a false value 
-        result.connected = pubSubClient.connected;
-        // a false value will be sent to the front end
-        res.send(result);
-    });
+    
+    
 });
 
 // export router
