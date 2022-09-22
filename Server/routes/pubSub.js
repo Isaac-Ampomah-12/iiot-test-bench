@@ -3,8 +3,7 @@ const express = require('express');
 
 // import libraries
 var mqtt = require('mqtt')
-const os = require("node-os-utils");
-require("loadavg-windows");
+var usage = require('cpu-percentage');
 
 // import helper functions
 let operations = require('../operations/operations');
@@ -15,25 +14,16 @@ const pubSubRouter = express.Router();
 let numTopic = 0;
 let result = {};
 let topicArray = [];
-let pubCount = 0;
 
 let totalSubMemory = 0;
 let totalPubMemory = 0;
 
-let totalSubCpu = 0;
-let totalPubCpu = 0;
 let subscriptionInformation = {};
 let publishInformation = {};
 
-let cpu = os.cpu;
+let totalSubUsage = 0;
+let totalPubUsage = 0;
 
-let subTotalElapTimeMs = 0;
-let subTotalElapUserMs = 0;
-let subTotalElapSystMs = 0;
-
-let pubTotalElapTimeMs = 0;
-let pubTotalElapUserMs = 0;
-let pubTotalElapSystMs = 0;
 
 pubSubRouter.post('', (req, res) => {
     let userValues = req.body;
@@ -94,28 +84,24 @@ pubSubRouter.post('', (req, res) => {
             for (let s=0; s<userValues.numberOfSubscribers; s++){
                 let stopic = topicArray[s];
 
-                let startTime = process.hrtime();
-                let startUsage = process.cpuUsage();
+                // get the initial CPU usage before subscribing
+                let subStart = usage();
 
                 let now = Date.now();
                 while(Date.now() - now < 500){
                     pubSubClient.subscribe(stopic);
                 }
+                
+                // get the amount of CPU used by the subscription process
+                let subUsage = usage(subStart);
 
-                let elapTime = process.hrtime(startTime);
-                let elapUsage = process.cpuUsage(startUsage);
-
+                // get the amount of memory used by the subscription process
                 let curSubMem = process.memoryUsage().heapUsed / 1024 / 1024;
 
-                let elapTimeMs = operations.Sec2ms(elapTime);
-                let elapUserMs = operations.Sec2ms(elapUsage.user);
-                let elapSystMs = operations.Sec2ms(elapUsage.system);
+                // store the total percentage of CPU used by all the subscription processes
+                totalSubUsage += subUsage.percent; 
 
-                subTotalElapTimeMs += elapTimeMs;
-                subTotalElapUserMs += elapUserMs;
-                subTotalElapSystMs += elapSystMs;
-
-                
+                // store total amount of memory used by all the subscription process
                 totalSubMemory += curSubMem;
             }        
         }
@@ -128,9 +114,8 @@ pubSubRouter.post('', (req, res) => {
                 // get topics from topicArray
                 let ptopic = topicArray[p];
 
-                // get the time and Cpu Usage before publishing
-                let startTime = process.hrtime();
-                let startUsage = process.cpuUsage();
+                // get the initial CPU usage before publising
+                let pubStart = usage();
 
                 // wait for wait for publishing to complete
                 let now = Date.now();
@@ -139,30 +124,16 @@ pubSubRouter.post('', (req, res) => {
                     pubSubClient.publish(ptopic, message);
                 }
 
-                // get the time and cpu Usage 
-                let elapTime = process.hrtime(startTime);
-                let elapUsage = process.cpuUsage(startUsage);
+                // get the amount of CPU used by the publishing process
+                let pubUsage = usage(pubStart);
 
-                let elapTimeMs = operations.Sec2ms(elapTime);
-                let elapUserMs = operations.Sec2ms(elapUsage.user);
-                let elapSystMs = operations.Sec2ms(elapUsage.system);
-
-                pubTotalElapTimeMs += elapTimeMs;
-                pubTotalElapUserMs += elapUserMs;
-                pubTotalElapSystMs += elapSystMs;
-
-                
-
-                // get the amount of CPU used for publishing to a topic
-                let curPubCpu = (cpu.loadavgTime() / 2) * 10;
+                // store the total percentage of CPU used by all the publishing processes
+                totalPubUsage += pubUsage.percent; 
 
                 // get the amount of memory used for publishing to a topic
                 let curPubMem = process.memoryUsage().heapUsed / 1024 / 1024;
 
-                // store accumulated amount of CPU used for publishing to the set of topics
-                totalPubCpu += curPubCpu;
-
-                // store accumulated amount of memory used for publishing to the set of topics
+                // store total amount of memory used by  all the publishing process
                 totalPubMemory += curPubMem; 
 
                 // this block will be called when the final publish is done
@@ -171,24 +142,19 @@ pubSubRouter.post('', (req, res) => {
                     // stops interval
                     clearInterval(pubLoop);
 
-                    let subCpuPercent = Math.round(100 * (subTotalElapUserMs + subTotalElapSystMs) / subTotalElapTimeMs);
-                    console.log("cpu Percent " , subCpuPercent);
+                    
+                    // get an average CPU percentage for all the subscription processes
+                    let subCpuPercent = Math.round(totalSubUsage / userValues.numberOfSubscribers);
 
+                    // get an average CPU percentage for all the publishing processes
+                    let pubCpuPercent = Math.round(totalPubUsage / userValues.numberOfPublishers);
 
-                    let pubCpuPercent = Math.round(100 * (pubTotalElapUserMs + pubTotalElapSystMs) / pubTotalElapTimeMs);
-                    console.log("cpu Percent " , pubCpuPercent);
-                    // console.log("Fin Sub " + totalCpuPercent / userValues.numberOfSubscribers);
-
-                    // store total CPU and memory used for subscription into subscriptionInformation
-                    // subscriptionInformation.cpu = Math.floor(totalSubCpu / userValues.numberOfSubscribers) + "%";
+                    // append the subscription memory and CPU Usage percentage
                     subscriptionInformation.cpu = subCpuPercent + "%";
                     subscriptionInformation.memory = Math.floor(totalSubMemory) + " MB";
 
-
-                    // store total CPU and memory used for publishing into publishInformation
-                    // publishInformation.cpu = Math.floor(totalPubCpu / userValues.numberOfPublishers) + "%";
+                    // append the publish memory and CPU Usage percentage
                     publishInformation.cpu = pubCpuPercent + "%";
-
                     publishInformation.memory = Math.floor(totalPubMemory) + " MB";
 
                     // append subscriptionInformation and publishInformation objects to result object
