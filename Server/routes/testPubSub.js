@@ -20,7 +20,8 @@ testSubPubRouter.post('/subpub', (req, res) => {
   subPubOptions.protocol = process.env.protocol;
   subPubOptions.username = process.env.username;
   subPubOptions.password = process.env.password;
-
+  subPubOptions.reconnectPeriod = process.env.reconnectPeriod;
+  
   // connect to broker
   let subPub = mqtt.connect(subPubOptions);
 

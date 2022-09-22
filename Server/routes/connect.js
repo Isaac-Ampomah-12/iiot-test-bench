@@ -35,6 +35,7 @@ connectRouter.post('/connect',(req, res) => {
         process.env.protocol = options.protocol;
         process.env.username = options.username;
         process.env.password = options.password;
+        process.env.reconnectPeriod = options.reconnectPeriod;
         
         // a true value will be sent to the front end
         return res.send({connectionStatus});
