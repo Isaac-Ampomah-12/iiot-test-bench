@@ -85,7 +85,7 @@ function Broker() {
             </div>
           </div>
         </div> */}
-        <div className="three columns">
+        {/* <div className="three columns">
           <h3>Performance</h3>
           <div className="info">
             <div className="info-item">
@@ -101,7 +101,7 @@ function Broker() {
               <span>{0}</span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="row bottom">
         <span style={{ color: pubsubConnect.color }}>
