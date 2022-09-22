@@ -24,7 +24,9 @@ function ConnectionSettings() {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const settings = {};
+    const settings = {
+      reconnectPeriod: 0
+    };
     for (const entry of formData.entries()) {
       const [name, value] = entry;
       if (name === "host-address") {

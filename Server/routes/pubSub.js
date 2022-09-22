@@ -45,7 +45,8 @@ pubSubRouter.post('', (req, res) => {
     pubSubOptions.protocol = process.env.protocol;
     pubSubOptions.username = process.env.username;
     pubSubOptions.password = process.env.password;
-
+    pubSubOptions.reconnectPeriod = process.env.reconnectPeriod;
+    
     // connect to broker
     let pubSubClient = mqtt.connect(pubSubOptions);
 

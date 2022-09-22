@@ -29,6 +29,7 @@ paths:
                 protocol: mqtts
                 username: Isaac Ampomah
                 password: 1password@most
+                reconnectPeriod: 0
       responses:
         '200':
           description: Successful broker connection
